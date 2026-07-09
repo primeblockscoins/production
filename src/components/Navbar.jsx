@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX, HiChevronRight } from 'react-icons/hi';
+import AaraLogo from './AaraLogo';
 
 const navLinks = [
   { name: 'Home', href: '#home', id: 'home' },
@@ -107,26 +108,8 @@ export default function Navbar({ onServiceSelect }) {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between relative">
         {/* Logo */}
-        <a href="#home" className="flex items-center group">
-          <div className="relative w-10 h-10 flex items-center justify-center border border-gold rounded-full transition-transform duration-500 group-hover:rotate-180">
-            <span className="font-serif text-lg font-semibold text-charcoal tracking-tighter">A</span>
-            <div className="absolute inset-0.5 border border-dashed border-gold/40 rounded-full animate-[spin_20s_linear_infinite]" />
-          </div>
-
-          {/* Collapsing Wordmark (collapses on scroll) */}
-          <motion.div
-            initial={{ width: 'auto', opacity: 1, marginLeft: 12 }}
-            animate={{ 
-              width: scrolled ? 0 : 'auto', 
-              opacity: scrolled ? 0 : 1,
-              marginLeft: scrolled ? 0 : 12
-            }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col overflow-hidden whitespace-nowrap"
-          >
-            <span className="font-serif text-xl font-bold tracking-widest text-charcoal">AARA</span>
-            <span className="text-[8px] tracking-[0.3em] text-gold uppercase font-medium">MEDIA MISSION</span>
-          </motion.div>
+        <a href="#home" className="flex items-center">
+          <AaraLogo darkBackground={false} />
         </a>
 
         {/* Desktop Links */}
