@@ -49,12 +49,25 @@ export default function Hero({ onPlayIntro }) {
     }
   };
 
+  // Defocus blur and slide reveal
   const letterVariants = {
-    hidden: { y: '100%', opacity: 0 },
+    hidden: { y: '60%', opacity: 0, filter: 'blur(8px)' },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+      filter: 'blur(0px)',
+      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] }
+    }
+  };
+
+  // Subtitle letter spacing expansion
+  const subtitleVariants = {
+    hidden: { opacity: 0, letterSpacing: '0.2em', y: -8 },
+    visible: {
+      opacity: 1,
+      letterSpacing: '0.4em',
+      y: 0,
+      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
@@ -85,6 +98,43 @@ export default function Hero({ onPlayIntro }) {
 
       {/* Soft cinematic vignette overlay blending background into the cream page */}
       <div className="absolute inset-0 bg-gradient-to-b from-cream/30 via-cream/60 to-cream pointer-events-none" />
+
+      {/* Cinematic Anamorphic Lens Flare Drift */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+        {/* Horizontal flare line */}
+        <motion.div
+          initial={{ opacity: 0, x: '-30%', y: '42%', rotate: -2 }}
+          animate={{ 
+            opacity: [0, 0.35, 0.35, 0],
+            x: ['-35%', '35%'],
+            y: ['42%', '38%']
+          }}
+          transition={{ 
+            duration: 11, 
+            repeat: Infinity, 
+            repeatDelay: 5, 
+            ease: "easeInOut" 
+          }}
+          className="absolute w-[200%] h-[1.5px] bg-gradient-to-r from-transparent via-[#BE5B3B]/40 via-white/70 via-[#BE5B3B]/40 to-transparent blur-[0.5px]"
+        />
+        
+        {/* Glowing lens center spot */}
+        <motion.div
+          initial={{ opacity: 0, x: '-30%', y: '42%' }}
+          animate={{ 
+            opacity: [0, 0.7, 0.7, 0],
+            x: ['-15%', '45%'],
+            y: ['41.5%', '37.5%']
+          }}
+          transition={{ 
+            duration: 11, 
+            repeat: Infinity, 
+            repeatDelay: 5, 
+            ease: "easeInOut" 
+          }}
+          className="absolute w-36 h-36 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.22)_0%,transparent_70%)] blur-sm"
+        />
+      </div>
 
       {/* Cinematic Viewfinder Overlay with Scroll-linked Zoom-Out */}
       <motion.div
@@ -133,15 +183,15 @@ export default function Hero({ onPlayIntro }) {
           animate="visible"
           className="flex flex-col items-center gap-4"
         >
-          {/* Subheading tag */}
+          {/* Subheading tag with letter spacing expand reveal */}
           <motion.span
-            variants={itemFade}
-            className="text-[10px] md:text-xs font-semibold tracking-[0.4em] text-gold uppercase"
+            variants={subtitleVariants}
+            className="text-[10px] md:text-xs font-semibold text-gold uppercase block"
           >
             A Cinematic Production Studio
           </motion.span>
 
-          {/* AARA staggered letter reveal */}
+          {/* AARA staggered letter reveal with defocus blur */}
           <div className="overflow-hidden py-1">
             <motion.h2
               className="font-serif text-5xl md:text-7xl text-charcoal font-bold tracking-tight leading-none flex gap-2.5 justify-center"
