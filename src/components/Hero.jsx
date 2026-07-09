@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { HiArrowDown } from 'react-icons/hi';
+import { HiArrowDown, HiPlay } from 'react-icons/hi';
 
-export default function Hero() {
+export default function Hero({ onPlayIntro }) {
   const { scrollY } = useScroll();
 
   // Parallax bindings
@@ -171,6 +171,10 @@ export default function Hero() {
             <a href="#services" className="btn-gold">
               Explore Services
             </a>
+            <button onClick={onPlayIntro} className="btn-outline flex items-center gap-1.5 py-3 px-6">
+              <HiPlay size={16} className="text-gold" />
+              <span>Play Intro</span>
+            </button>
             <a href="#contact" className="btn-outline">
               Start a Project
             </a>

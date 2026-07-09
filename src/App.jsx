@@ -9,10 +9,24 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ServiceDetailsModal from './components/ServiceDetailsModal';
 import PolicyPage from './components/PolicyPage';
+import CinemaIntroPlayer from './components/CinemaIntroPlayer';
 
 function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [currentPage, setCurrentPage] = useState('main');
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Disable body scroll when modal or intro overlay is open
+  useEffect(() => {
+    if (selectedService || showIntro) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedService, showIntro]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -44,7 +58,7 @@ function App() {
         <>
           <Navbar onServiceSelect={setSelectedService} />
           <main className="flex-grow w-full relative z-10">
-            <Hero />
+            <Hero onPlayIntro={() => setShowIntro(true)} />
             <About />
             <Services onServiceSelect={setSelectedService} />
             <Process />
@@ -61,6 +75,11 @@ function App() {
           <ServiceDetailsModal
             serviceId={selectedService}
             onClose={() => setSelectedService(null)}
+          />
+        )}
+        {showIntro && (
+          <CinemaIntroPlayer
+            onClose={() => setShowIntro(false)}
           />
         )}
       </AnimatePresence>
