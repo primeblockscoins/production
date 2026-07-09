@@ -479,7 +479,7 @@ export default function CinemaIntroPlayer({ onClose }) {
               <div className="relative w-full h-full flex items-center justify-center max-w-7xl aspect-video">
                 <video
                   ref={videoRef}
-                  src="/logivideo.mp4"
+                  src="/logovideo.mp4"
                   autoPlay
                   playsInline
                   muted={muted}
