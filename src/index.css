@@ -133,3 +133,66 @@ body {
   -webkit-text-fill-color: transparent;
   animation: shimmer 6s linear infinite;
 }
+
+/* Floating cinematic light leaks / blobs */
+@keyframes float-slow-1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(40px, -50px) scale(1.15);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+}
+
+@keyframes float-slow-2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1.05);
+  }
+  50% {
+    transform: translate(-50px, 40px) scale(0.85);
+  }
+}
+
+.animate-float-1 {
+  animation: float-slow-1 25s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-slow-2 30s ease-in-out infinite;
+}
+
+/* Premium Spotlight Card Hover Outline Effect */
+.spotlight-card {
+  position: relative;
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    400px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    rgba(190, 91, 59, 0.09),
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* Elegant custom scrollbar track overlay details */
+.custom-glow-overlay {
+  box-shadow: 0 0 50px -12px rgba(190, 91, 59, 0.25);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 12px rgba(190, 91, 59, 0.4), 0 0 25px rgba(190, 91, 59, 0.15);
+}

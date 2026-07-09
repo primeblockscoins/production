@@ -8,7 +8,7 @@ export default function InteractiveClapperboard() {
   const [isHovered, setIsHovered] = useState(false);
   const [flash, setFlash] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
-  
+
   const cardRef = useRef(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
@@ -209,8 +209,8 @@ export default function InteractiveClapperboard() {
           </div>
 
           {/* Lower Static Stick */}
-          <div 
-            style={clapperStripes} 
+          <div
+            style={clapperStripes}
             className="h-9 md:h-11 w-full border-b border-neutral-950 relative"
           >
             {/* Ambient Shadow cast by the stick */}
@@ -220,7 +220,7 @@ export default function InteractiveClapperboard() {
 
         {/* Slate Chalkboard Face */}
         <div className="flex-grow p-4 md:p-6 flex flex-col justify-between relative text-neutral-200">
-          
+
           {/* Production Title Header */}
           <div className="flex justify-between items-center border-b border-neutral-800/80 pb-2">
             <div className="flex flex-col">
@@ -246,7 +246,7 @@ export default function InteractiveClapperboard() {
             </div>
             <div className="flex flex-col justify-center relative group/take">
               <span className="text-[8px] tracking-widest uppercase text-[#BE5B3B] font-bold mb-1">Take</span>
-              <motion.span 
+              <motion.span
                 key={take}
                 initial={{ scale: 0.8, opacity: 0.5 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -265,9 +265,9 @@ export default function InteractiveClapperboard() {
           {/* Timecode Digital LED Display */}
           <div className="py-2.5 md:py-3.5 flex flex-col items-center justify-center border-b border-neutral-800/80 bg-black/35 rounded-sm shadow-inner relative overflow-hidden">
             <span className="absolute left-2.5 top-1.5 text-[7px] tracking-widest uppercase text-neutral-600 font-bold">LTC Timecode</span>
-            
+
             {/* LED Glowing text */}
-            <span 
+            <span
               style={{
                 textShadow: '0 0 8px rgba(190,91,59,0.5), 0 0 20px rgba(190,91,59,0.3)',
               }}
@@ -289,7 +289,7 @@ export default function InteractiveClapperboard() {
                 <span className="font-semibold text-cream/80 truncate">ARRI ALEXA 35</span>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-1.5 pl-3">
               <div className="flex flex-col">
                 <span className="text-[7px] tracking-widest uppercase text-neutral-500 font-bold">Date</span>

@@ -64,8 +64,18 @@ export default function Services() {
     }
   };
 
+  // Mouse move handler to update local CSS variables for spotlight effect
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return (
-    <section id="services" className="py-24 md:py-32 bg-cream-dark/30">
+    <section id="services" className="py-24 md:py-32 bg-cream-dark/20 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="text-center mb-16 md:mb-24">
@@ -94,18 +104,19 @@ export default function Services() {
                 variants={cardVariants}
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.4 }}
-                className="bg-white p-8 rounded shadow-sm border border-charcoal/5 hover:shadow-xl hover:border-gold/30 transition-all duration-300 group"
+                onMouseMove={handleMouseMove}
+                className="bg-white p-8 rounded shadow-sm border border-charcoal/5 hover:shadow-xl hover:border-gold/30 transition-all duration-300 group spotlight-card cursor-default overflow-hidden relative"
               >
-                {/* Icon Container */}
-                <div className="w-12 h-12 bg-cream-dark flex items-center justify-center rounded text-gold mb-6 transition-colors duration-300 group-hover:bg-gold group-hover:text-white">
-                  <Icon size={24} />
+                {/* Icon Container (relative and z-10 to stay above spotlight gradient) */}
+                <div className="relative z-10 w-12 h-12 bg-cream-dark flex items-center justify-center rounded text-gold mb-6 transition-all duration-500 group-hover:bg-gold group-hover:text-white group-hover:scale-105 group-hover:shadow-[0_4px_12px_rgba(190,91,59,0.2)]">
+                  <Icon size={24} className="transition-transform duration-500 group-hover:rotate-12" />
                 </div>
                 {/* Title */}
-                <h3 className="font-serif text-xl font-bold text-charcoal group-hover:text-gold transition-colors duration-300">
+                <h3 className="relative z-10 font-serif text-xl font-bold text-charcoal group-hover:text-gold transition-colors duration-300">
                   {service.title}
                 </h3>
                 {/* Description */}
-                <p className="text-sm text-charcoal-light/80 font-sans leading-relaxed mt-3">
+                <p className="relative z-10 text-sm text-charcoal-light/80 font-sans leading-relaxed mt-3">
                   {service.description}
                 </p>
               </motion.div>
@@ -116,3 +127,4 @@ export default function Services() {
     </section>
   );
 }
+

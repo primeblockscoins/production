@@ -3,7 +3,7 @@ import { HiArrowDown } from 'react-icons/hi';
 
 export default function Hero() {
   const { scrollY } = useScroll();
-  
+
   // Parallax bindings
   const bgY = useTransform(scrollY, [0, 600], ['0%', '12%']);
   const bgScale = useTransform(scrollY, [0, 600], [1.05, 1.15]);
@@ -93,7 +93,7 @@ export default function Hero() {
       </div>
 
       {/* Cinematic Viewfinder Overlay with Scroll-linked Zoom-Out */}
-      <motion.div 
+      <motion.div
         style={{ scale: viewfinderScale, opacity: viewfinderOpacity }}
         className="absolute inset-4 md:inset-8 border border-gold/15 pointer-events-none z-20 flex flex-col justify-between p-4 text-[9px] font-sans tracking-[0.2em] uppercase text-gold/60"
       >
@@ -105,7 +105,7 @@ export default function Hero() {
           </div>
           <div className="font-medium text-charcoal/60">TC 00:14:52:18</div>
         </div>
-        
+
         {/* Center Crosshair (Subtle) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
           <div className="w-6 h-[1px] bg-gold" />
@@ -134,7 +134,7 @@ export default function Hero() {
           >
             A Cinematic Production Studio
           </motion.span>
-          
+
           {/* AARA slide-up masking reveal */}
           <div className="overflow-hidden py-1">
             <motion.h2

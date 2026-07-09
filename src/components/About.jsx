@@ -38,15 +38,15 @@ export default function About() {
   };
 
   return (
-    <section 
+    <section
       ref={containerRef}
-      id="about" 
+      id="about"
       className="py-24 md:py-32 overflow-hidden bg-cream relative"
     >
       {/* Subtle Cinematic Static Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div
-          style={{ 
+          style={{
             backgroundImage: `url('/cinema_action_sequence.png')`,
           }}
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-[0.28] contrast-[1.15]"
@@ -61,7 +61,7 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Split Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-          
+
           {/* Narrative Column (Slides from Left) */}
           <motion.div
             ref={inViewRef}
@@ -99,7 +99,7 @@ export default function About() {
             >
               Founded with the singular purpose of elevating storytelling, AARA Media Mission is a boutique cinema production company. We specialize in producing immersive experiences—from independent feature films to premium commercial spots and artistic music videos.
             </motion.p>
-            
+
             <motion.p
               variants={itemVariants}
               className="text-sm md:text-base text-charcoal-light/80 leading-relaxed font-sans"
@@ -118,7 +118,7 @@ export default function About() {
           >
             <InteractiveClapperboard />
           </motion.div>
-          
+
         </div>
       </div>
     </section>
