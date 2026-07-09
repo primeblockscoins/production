@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { HiArrowDown, HiPlay } from 'react-icons/hi';
 
-export default function Hero({ onPlayIntro }) {
+export default function Hero({ onPlayIntro, isTickerPaused }) {
   const { scrollY } = useScroll();
 
   // Live 24fps timecode ticker (ref-based for performance)
@@ -11,11 +11,19 @@ export default function Hero({ onPlayIntro }) {
   // Parallax bindings
   const bgY = useTransform(scrollY, [0, 600], ['0%', '12%']);
   const bgScale = useTransform(scrollY, [0, 600], [1.05, 1.15]);
+  const bgOpacity = useTransform(scrollY, [0, 600], [1, 0.3]);
   const viewfinderScale = useTransform(scrollY, [0, 400], [1, 1.04]);
   const viewfinderOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
+  // Scroll-linked content animations
+  const contentY = useTransform(scrollY, [0, 500], [0, -60]);
+  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const indicatorOpacity = useTransform(scrollY, [0, 150], [1, 0]);
+
   // Run live running timecode ticker at 24fps
   useEffect(() => {
+    if (isTickerPaused) return;
+
     let frames = 0;
     const interval = setInterval(() => {
       const d = new Date();
@@ -30,7 +38,7 @@ export default function Hero({ onPlayIntro }) {
     }, 1000 / 24);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isTickerPaused]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -94,7 +102,8 @@ export default function Hero({ onPlayIntro }) {
         style={{
           backgroundImage: `url('/cinema_hero_bg.png')`,
           y: bgY,
-          scale: bgScale
+          scale: bgScale,
+          opacity: bgOpacity
         }}
       />
 
@@ -105,34 +114,36 @@ export default function Hero({ onPlayIntro }) {
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
         {/* Horizontal flare line */}
         <motion.div
-          initial={{ opacity: 0, x: '-30%', y: '42%', rotate: -2 }}
+          initial={{ opacity: 0, x: '-35%', y: '42%', rotate: -2, scaleY: 0.8 }}
           animate={{ 
-            opacity: [0, 0.35, 0.35, 0],
+            opacity: [0, 0.45, 0.45, 0],
             x: ['-35%', '35%'],
-            y: ['42%', '38%']
+            y: ['42%', '39%'],
+            scaleY: [0.8, 1.2, 0.8]
           }}
           transition={{ 
-            duration: 11, 
+            duration: 13, 
             repeat: Infinity, 
-            repeatDelay: 5, 
-            ease: "easeInOut" 
+            repeatDelay: 4, 
+            ease: [0.25, 0.1, 0.25, 1.0] 
           }}
           className="absolute w-[200%] h-[1.5px] bg-gradient-to-r from-transparent via-[#BE5B3B]/40 via-white/70 via-[#BE5B3B]/40 to-transparent blur-[0.5px]"
         />
         
         {/* Glowing lens center spot */}
         <motion.div
-          initial={{ opacity: 0, x: '-30%', y: '42%' }}
+          initial={{ opacity: 0, x: '-20%', y: '42%', scale: 0.9 }}
           animate={{ 
-            opacity: [0, 0.7, 0.7, 0],
-            x: ['-15%', '45%'],
-            y: ['41.5%', '37.5%']
+            opacity: [0, 0.75, 0.75, 0],
+            x: ['-20%', '50%'],
+            y: ['41.5%', '38.5%'],
+            scale: [0.9, 1.15, 0.9]
           }}
           transition={{ 
-            duration: 11, 
+            duration: 13, 
             repeat: Infinity, 
-            repeatDelay: 5, 
-            ease: "easeInOut" 
+            repeatDelay: 4, 
+            ease: [0.25, 0.1, 0.25, 1.0] 
           }}
           className="absolute w-36 h-36 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.22)_0%,transparent_70%)] blur-sm"
         />
@@ -178,7 +189,10 @@ export default function Hero({ onPlayIntro }) {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center flex flex-col items-center">
+      <motion.div 
+        style={{ y: contentY, opacity: contentOpacity }}
+        className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center flex flex-col items-center"
+      >
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -254,7 +268,7 @@ export default function Hero({ onPlayIntro }) {
             </a>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll down indicator */}
       <motion.a
@@ -262,6 +276,7 @@ export default function Hero({ onPlayIntro }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 1 }}
+        style={{ opacity: indicatorOpacity }}
         className="absolute bottom-10 z-10 flex flex-col items-center gap-2 group cursor-pointer"
       >
         <span className="text-[9px] tracking-[0.3em] uppercase text-charcoal/60 group-hover:text-gold transition-colors duration-300 font-semibold">

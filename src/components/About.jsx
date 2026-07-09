@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import InteractiveClapperboard from './InteractiveClapperboard';
 
-export default function About() {
+export default function About({ isTickerPaused }) {
   const containerRef = useRef(null);
   const inViewRef = useRef(null);
   const isInView = useInView(inViewRef, { once: true, margin: '-100px' });
@@ -116,7 +116,7 @@ export default function About() {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="w-full flex justify-center"
           >
-            <InteractiveClapperboard />
+            <InteractiveClapperboard isTickerPaused={isTickerPaused} />
           </motion.div>
 
         </div>

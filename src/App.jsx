@@ -48,6 +48,8 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  const isTickerPaused = showIntro || selectedService !== null;
+
   return (
     <div className="bg-cream min-h-screen text-charcoal flex flex-col w-full relative overflow-x-hidden font-sans">
       {/* Decorative ambient light leaks drifting across the whole page */}
@@ -58,8 +60,8 @@ function App() {
         <>
           <Navbar onServiceSelect={setSelectedService} />
           <main className="flex-grow w-full relative z-10">
-            <Hero onPlayIntro={() => setShowIntro(true)} />
-            <About />
+            <Hero onPlayIntro={() => setShowIntro(true)} isTickerPaused={isTickerPaused} />
+            <About isTickerPaused={isTickerPaused} />
             <Services onServiceSelect={setSelectedService} />
             <Process />
             <Contact />

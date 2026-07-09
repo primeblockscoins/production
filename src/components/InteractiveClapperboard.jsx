@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
-export default function InteractiveClapperboard() {
+export default function InteractiveClapperboard({ isTickerPaused }) {
   const [take, setTake] = useState(1);
   const [isClapping, setIsClapping] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -15,6 +15,8 @@ export default function InteractiveClapperboard() {
 
   // Live running 24fps timecode logic (ref-based for performance)
   useEffect(() => {
+    if (isTickerPaused) return;
+
     let frame = 0;
     let sec = 34;
     let min = 21;
@@ -45,7 +47,7 @@ export default function InteractiveClapperboard() {
     }, 1000 / 24);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isTickerPaused]);
 
   // Format date like on a film set (e.g., 09 JUL 2026)
   useEffect(() => {

@@ -148,7 +148,7 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder=" "
-                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:outline-none transition-all duration-300 text-sm font-sans"
+                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:shadow-[0_0_12px_rgba(190,91,59,0.2)] focus:outline-none transition-all duration-300 text-sm font-sans"
                       />
                       <label
                         htmlFor="name"
@@ -168,7 +168,7 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder=" "
-                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:outline-none transition-all duration-300 text-sm font-sans"
+                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:shadow-[0_0_12px_rgba(190,91,59,0.2)] focus:outline-none transition-all duration-300 text-sm font-sans"
                       />
                       <label
                         htmlFor="email"
@@ -185,7 +185,7 @@ export default function Contact() {
                         name="projectType"
                         value={formData.projectType}
                         onChange={handleChange}
-                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:outline-none transition-all duration-300 text-sm font-sans appearance-none cursor-pointer"
+                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:shadow-[0_0_12px_rgba(190,91,59,0.2)] focus:outline-none transition-all duration-300 text-sm font-sans appearance-none cursor-pointer"
                       >
                         <option value="Feature Film">Feature Film</option>
                         <option value="Commercial">Commercial / Ad</option>
@@ -214,7 +214,7 @@ export default function Contact() {
                         value={formData.message}
                         onChange={handleChange}
                         placeholder=" "
-                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:outline-none transition-all duration-300 text-sm font-sans resize-none"
+                        className="peer w-full pt-5 pb-1 px-4 bg-cream border border-charcoal/10 rounded focus:border-gold focus:shadow-[0_0_12px_rgba(190,91,59,0.2)] focus:outline-none transition-all duration-300 text-sm font-sans resize-none"
                       />
                       <label
                         htmlFor="message"
