@@ -4,7 +4,7 @@ import { HiX, HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 export default function CinemaIntroPlayer({ onClose }) {
   const [phase, setPhase] = useState('init'); // init -> projector -> countdown -> assembly -> reveal -> loop
-  const [countdown, setCountdown] = useState(8);
+  const [countdown, setCountdown] = useState(3);
   const [muted, setMuted] = useState(false);
 
   // Audio nodes refs
@@ -174,10 +174,10 @@ export default function CinemaIntroPlayer({ onClose }) {
     playBeep();
     const interval = setInterval(() => {
       setCountdown((prev) => {
-        if (prev <= 2) {
+        if (prev <= 1) {
           clearInterval(interval);
           setPhase('video');
-          return 2;
+          return 1;
         }
         playBeep();
         return prev - 1;
