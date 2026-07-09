@@ -12,6 +12,7 @@ export default function CinemaIntroPlayer({ onClose }) {
   const humNodeRef = useRef(null);
   const fanNodeRef = useRef(null);
   const clickIntervalRef = useRef(null);
+  const videoRef = useRef(null);
   const droneGainRef = useRef(null);
   const droneOscsRef = useRef([]);
 
@@ -175,7 +176,7 @@ export default function CinemaIntroPlayer({ onClose }) {
       setCountdown((prev) => {
         if (prev <= 2) {
           clearInterval(interval);
-          setPhase('assembly');
+          setPhase('video');
           return 2;
         }
         playBeep();
@@ -186,28 +187,23 @@ export default function CinemaIntroPlayer({ onClose }) {
     return () => clearInterval(interval);
   }, [phase]);
 
-  // Handle logo assembly -> theatrical reveal
+  // Handle video phase: stop background audio hum & fan ticking clicker
   useEffect(() => {
-    if (phase !== 'assembly') return;
+    if (phase !== 'video') return;
 
-    // Line assembly lasts 3.5s
-    const timer = setTimeout(() => {
-      setPhase('reveal');
-      playTheatricalRiser();
-    }, 3800);
-
-    return () => clearTimeout(timer);
-  }, [phase]);
-
-  // Handle reveal -> looping loop phase
-  useEffect(() => {
-    if (phase !== 'reveal') return;
-
-    const timer = setTimeout(() => {
-      setPhase('loop');
-    }, 5000);
-
-    return () => clearTimeout(timer);
+    if (clickIntervalRef.current) clearInterval(clickIntervalRef.current);
+    try {
+      if (humNodeRef.current) {
+        humNodeRef.current.osc.stop();
+        humNodeRef.current = null;
+      }
+      if (fanNodeRef.current) {
+        fanNodeRef.current.source.stop();
+        fanNodeRef.current = null;
+      }
+    } catch (e) {
+      console.warn("Could not stop audio context: ", e);
+    }
   }, [phase]);
 
   // Volumetric light beam and dust particles canvas visualizer
@@ -259,8 +255,8 @@ export default function CinemaIntroPlayer({ onClose }) {
       ctx.fill();
       ctx.restore();
 
-      // Only draw the light cone in assembly, reveal, or loop phase
-      if (phase === 'assembly' || phase === 'reveal' || phase === 'loop') {
+      // Only draw the light cone in projector or countdown phase
+      if (phase === 'projector' || phase === 'countdown') {
         ctx.save();
         const beamGrad = ctx.createRadialGradient(
           originX, originY, 10,
@@ -299,7 +295,7 @@ export default function CinemaIntroPlayer({ onClose }) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         
-        if (isInsideCone && (phase === 'assembly' || phase === 'reveal' || phase === 'loop')) {
+        if (isInsideCone && (phase === 'projector' || phase === 'countdown')) {
           // Glow gold inside projector beam
           ctx.fillStyle = `rgba(190, 91, 59, ${p.alpha * 2})`;
           ctx.shadowColor = '#BE5B3B';
@@ -470,144 +466,25 @@ export default function CinemaIntroPlayer({ onClose }) {
             </motion.div>
           )}
 
-          {/* Phase 3: Logo Drawing Assembly */}
-          {phase === 'assembly' && (
+          {/* Phase 3: Volumetric Video Intro Playback */}
+          {phase === 'video' && (
             <motion.div
-              key="assembly"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col items-center"
-            >
-              {/* Drawing Camera Outline (SVG Draw Animation) */}
-              <div className="w-24 h-24 mb-6">
-                <svg viewBox="0 0 32 32" className="w-full h-full text-white">
-                  {/* Left reel */}
-                  <motion.circle
-                    cx="9"
-                    cy="10"
-                    r="3.8"
-                    fill="none"
-                    stroke="#BE5B3B"
-                    strokeWidth="1.5"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: 0.2 }}
-                  />
-                  {/* Right reel */}
-                  <motion.circle
-                    cx="17"
-                    cy="10"
-                    r="3.8"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: 0.5 }}
-                  />
-                  {/* Body */}
-                  <motion.rect
-                    x="7"
-                    y="14.5"
-                    width="12"
-                    height="8.5"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="1.8"
-                    rx="0.5"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, delay: 0.8 }}
-                  />
-                  {/* Lens hood */}
-                  <motion.path
-                    d="M 19,16.5 L 24.5,14.5 V 21 L 19,19 Z"
-                    fill="none"
-                    stroke="#BE5B3B"
-                    strokeWidth="1.8"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.8, delay: 1.2 }}
-                  />
-                </svg>
-              </div>
-              <p className="text-[9px] tracking-[0.5em] text-white/40 uppercase font-mono mt-2">
-                Assembling optics...
-              </p>
-            </motion.div>
-          )}
-
-          {/* Phase 4 & 5: Cinematic Reveal & Ambient Loop */}
-          {(phase === 'reveal' || phase === 'loop') && (
-            <motion.div
-              key="reveal"
+              key="video"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-              className="flex flex-col items-center select-none"
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 w-full h-full flex items-center justify-center bg-black"
             >
-              {/* Volumetric glow camera icon */}
-              <motion.div
-                initial={{ scale: 0.85, filter: 'blur(10px)' }}
-                animate={{ scale: 1, filter: 'blur(0px)' }}
-                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                className="w-20 h-20 relative flex items-center justify-center mb-8"
-              >
-                {/* Projected Glow behind */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#BE5B3B] to-amber-500 rounded-full blur-2xl opacity-20 scale-125 animate-pulse" />
-                
-                <svg viewBox="0 0 32 32" className="w-full h-full relative z-10 filter drop-shadow-[0_0_12px_rgba(255,255,255,0.25)]">
-                  {/* Reels */}
-                  <circle cx="9" cy="10" r="3.8" fill="none" stroke="#BE5B3B" strokeWidth="1.5" />
-                  <line x1="9" y1="6.2" x2="9" y2="13.8" stroke="#BE5B3B" strokeWidth="0.8" />
-                  <line x1="5.2" y1="10" x2="12.8" y2="10" stroke="#BE5B3B" strokeWidth="0.8" />
-
-                  <circle cx="17" cy="10" r="3.8" fill="none" stroke="white" strokeWidth="1.5" />
-                  <line x1="17" y1="6.2" x2="17" y2="13.8" stroke="white" strokeWidth="0.8" />
-                  <line x1="13.2" y1="10" x2="20.8" y2="10" stroke="white" strokeWidth="0.8" />
-
-                  {/* Body */}
-                  <rect x="7" y="14.5" width="12" height="8.5" fill="none" stroke="white" strokeWidth="1.8" rx="0.5" />
-
-                  {/* Lens */}
-                  <path d="M 19,16.5 L 24.5,14.5 V 21 L 19,19 Z" fill="none" stroke="#BE5B3B" strokeWidth="1.8" />
-                  <line x1="19" y1="19.5" x2="19" y2="16" stroke="#BE5B3B" strokeWidth="1.8" />
-                </svg>
-              </motion.div>
-
-              {/* Title typography with light sweep */}
-              <div className="flex flex-col items-center">
-                <motion.h1
-                  initial={{ letterSpacing: '0.1em', opacity: 0 }}
-                  animate={{ letterSpacing: '0.35em', opacity: 1 }}
-                  transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif text-4xl md:text-6xl text-white font-bold leading-none select-none tracking-[0.35em] pl-[0.35em]"
-                >
-                  AARA
-                </motion.h1>
-
-                <motion.span
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.5, delay: 1 }}
-                  className="text-xs md:text-sm font-semibold tracking-[0.45em] text-[#BE5B3B] uppercase mt-4 select-none pl-[0.45em]"
-                >
-                  MEDIA MISSION
-                </motion.span>
-              </div>
-
-              {/* Loop screen subtext */}
-              {phase === 'loop' && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest mt-12"
-                >
-                  Projecting loop mode • Playback running
-                </motion.p>
-              )}
+              <video
+                ref={videoRef}
+                src="/this_is_my_logo_i_want_a_creat.mp4"
+                autoPlay
+                playsInline
+                muted={muted}
+                onEnded={onClose}
+                className="w-full h-full object-contain"
+              />
             </motion.div>
           )}
         </AnimatePresence>
