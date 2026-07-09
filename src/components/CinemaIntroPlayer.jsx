@@ -479,18 +479,12 @@ export default function CinemaIntroPlayer({ onClose }) {
               <div className="relative w-full h-full flex items-center justify-center max-w-7xl aspect-video">
                 <video
                   ref={videoRef}
-                  src="/this_is_my_logo_i_want_a_creat.mp4"
+                  src="/you_remove_the_gemini_logo_in.mp4"
                   autoPlay
                   playsInline
                   muted={muted}
                   onEnded={onClose}
                   className="w-full h-full object-contain"
-                />
-                
-                {/* Mask patch to cover the Gemini spark logo in the background */}
-                <div 
-                  style={{ backgroundColor: '#18191b' }}
-                  className="absolute bottom-[10.5%] right-[10.5%] w-14 h-14 rounded-full blur-md opacity-[0.98] pointer-events-none z-20"
                 />
               </div>
             </motion.div>
