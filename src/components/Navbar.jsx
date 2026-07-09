@@ -108,8 +108,23 @@ export default function Navbar({ onServiceSelect }) {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between relative">
         {/* Logo */}
-        <a href="#home" className="flex items-center">
+        <a href="#home" className="flex items-center group">
           <AaraLogo darkBackground={false} />
+
+          {/* Collapsing Wordmark (collapses on scroll) */}
+          <motion.div
+            initial={{ width: 'auto', opacity: 1, marginLeft: 12 }}
+            animate={{ 
+              width: scrolled ? 0 : 'auto', 
+              opacity: scrolled ? 0 : 1,
+              marginLeft: scrolled ? 0 : 12
+            }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col overflow-hidden whitespace-nowrap"
+          >
+            <span className="font-serif text-xl font-bold tracking-widest text-charcoal">AARA</span>
+            <span className="text-[8px] tracking-[0.3em] text-gold uppercase font-medium">MEDIA MISSION</span>
+          </motion.div>
         </a>
 
         {/* Desktop Links */}

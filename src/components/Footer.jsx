@@ -23,8 +23,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 pb-16 border-b border-white/10">
           {/* Logo / Story Column - 5 cols */}
           <div className="md:col-span-5 flex flex-col gap-6">
-            <a href="#home" className="flex items-center">
+            <a href="#home" className="flex items-center gap-3">
               <AaraLogo darkBackground={true} />
+              <div className="flex flex-col">
+                <span className="font-serif text-lg font-bold tracking-widest text-white">AARA</span>
+                <span className="text-[7px] tracking-[0.3em] text-gold uppercase font-medium">MEDIA MISSION</span>
+              </div>
             </a>
             <p className="text-xs text-white/60 max-w-sm leading-relaxed font-sans">
               A boutique cinema studio carving high-end visual stories, commercial spots, and narrative feature films. Serving clients globally from Chennai, Pollachi, and Bangalore.

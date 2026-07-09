@@ -12,132 +12,69 @@ export default function AaraLogo({ darkBackground = false }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex items-center gap-3 cursor-pointer select-none group"
+      className="relative w-8 h-8 flex items-center justify-center cursor-pointer select-none group"
     >
-      {/* Unique Rigged Digital Cinema Camera Icon */}
-      <div className="relative w-8 h-8 flex items-center justify-center">
-        <svg viewBox="0 0 32 32" className="w-full h-full">
-          {/* Base Rods (Charcoal/White) */}
-          <line
-            x1="4"
-            y1="25.5"
-            x2="25"
-            y2="25.5"
-            stroke={bodyColor}
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-          <circle cx="7" cy="25.5" r="1" fill={goldColor} />
-          <circle cx="22" cy="25.5" r="1" fill={goldColor} />
+      <svg viewBox="0 0 32 32" className="w-full h-full">
+        {/* Film Reels on top */}
+        <g>
+          {/* Left Reel */}
+          <circle cx="9" cy="10" r="3.8" fill="none" stroke={goldColor} strokeWidth="1.5" />
+          <line x1="9" y1="6.2" x2="9" y2="13.8" stroke={goldColor} strokeWidth="0.8" />
+          <line x1="5.2" y1="10" x2="12.8" y2="10" stroke={goldColor} strokeWidth="0.8" />
+        </g>
 
-          {/* Camera Body (Charcoal/White) */}
-          <rect
-            x="8"
-            y="16"
-            width="11"
-            height="8"
-            fill="none"
-            stroke={bodyColor}
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-            rx="0.5"
-          />
+        <g>
+          {/* Right Reel */}
+          <circle cx="17" cy="10" r="3.8" fill="none" stroke={bodyColor} strokeWidth="1.5" />
+          <line x1="17" y1="6.2" x2="17" y2="13.8" stroke={bodyColor} strokeWidth="0.8" />
+          <line x1="13.2" y1="10" x2="20.8" y2="10" stroke={bodyColor} strokeWidth="0.8" />
+        </g>
 
-          {/* Battery block on the left (Charcoal/White) */}
-          <rect
-            x="4"
-            y="17.5"
-            width="4"
-            height="6.5"
-            fill="none"
-            stroke={bodyColor}
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-            rx="0.5"
-          />
+        {/* Simple Camera Body (Charcoal/White) */}
+        <rect
+          x="7"
+          y="14.5"
+          width="12"
+          height="8.5"
+          fill="none"
+          stroke={bodyColor}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+          rx="0.5"
+        />
 
-          {/* Top Handle (Charcoal/White) */}
-          <path
-            d="M 9,16 V 13.5 H 16 V 16"
-            fill="none"
-            stroke={bodyColor}
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-          />
+        {/* Matte Box / Lens Hood on the right (Gold) */}
+        <path
+          d="M 19,16.5 L 24.5,14.5 V 21 L 19,19 Z"
+          fill="none"
+          stroke={goldColor}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
 
-          {/* Top Monitor Bracket & Screen (Glows Gold on Hover) */}
-          <line
-            x1="13.5"
-            y1="13.5"
-            x2="13.5"
-            y2="11"
-            stroke={bodyColor}
-            strokeWidth="1.5"
-          />
-          <motion.rect
-            x="11"
-            y="7.5"
-            width="5"
-            height="3.5"
-            fill={hovered ? goldColor : "none"}
-            stroke={hovered ? goldColor : bodyColor}
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-            rx="0.5"
-            className="transition-colors duration-300"
-          />
+        {/* Lens connector detail */}
+        <line
+          x1="19"
+          y1="19.5"
+          x2="19"
+          y2="16"
+          stroke={goldColor}
+          strokeWidth="1.8"
+        />
+      </svg>
 
-          {/* Matte Box / Lens Hood on the right (Gold) */}
-          <path
-            d="M 19,17 L 25.5,14 V 22.5 L 19,19.5 Z"
-            fill="none"
-            stroke={goldColor}
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-            strokeLinecap="round"
+      {/* Laser Projection beam from the lens hood */}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, x: -5 }}
+            animate={{ opacity: 0.15, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.8, x: -5 }}
+            className="absolute left-[90%] top-[56%] -translate-y-1/2 w-10 h-10 rounded-full bg-gold blur-md pointer-events-none z-10"
           />
-
-          {/* Lens connector detail */}
-          <line
-            x1="19"
-            y1="20"
-            x2="19"
-            y2="17"
-            stroke={goldColor}
-            strokeWidth="1.8"
-          />
-        </svg>
-
-        {/* Laser Projection beam from the matte box */}
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, x: -5 }}
-              animate={{ opacity: 0.15, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.8, x: -5 }}
-              className="absolute left-[90%] top-[56%] -translate-y-1/2 w-10 h-10 rounded-full bg-gold blur-md pointer-events-none z-10"
-            />
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Brand Wordmark Text */}
-      <div className="flex flex-col items-start leading-none font-sans">
-        <span
-          className={`font-serif text-xl md:text-2xl font-bold tracking-widest leading-none ${
-            darkBackground ? 'text-white' : 'text-charcoal'
-          }`}
-        >
-          AARA
-        </span>
-        <span
-          style={{ color: goldColor }}
-          className="text-[7.5px] md:text-[8.5px] font-bold tracking-[0.25em] uppercase leading-none mt-1"
-        >
-          MEDIA MISSION
-        </span>
-      </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

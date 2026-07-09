@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { HiArrowLeft } from 'react-icons/hi';
+import AaraLogo from './AaraLogo';
 
 export default function PolicyPage({ type }) {
   // Scroll to top on page mount
@@ -26,10 +27,8 @@ export default function PolicyPage({ type }) {
       {/* Header Bar */}
       <header className="border-b border-charcoal/5 bg-white/70 backdrop-blur-md sticky top-0 z-30 py-5 select-none">
         <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
-          <a href="#/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 flex items-center justify-center border border-gold rounded-full transition-transform duration-500 group-hover:rotate-180">
-              <span className="font-serif text-sm font-semibold text-charcoal tracking-tighter">A</span>
-            </div>
+          <a href="#/" className="flex items-center gap-3">
+            <AaraLogo darkBackground={false} />
             <div className="flex flex-col">
               <span className="font-serif text-base font-bold tracking-widest text-charcoal leading-none">AARA</span>
               <span className="text-[7px] tracking-[0.25em] text-gold uppercase font-medium mt-0.5">MEDIA MISSION</span>
