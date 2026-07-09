@@ -84,8 +84,9 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-10 text-[10px] text-white/40 tracking-wider font-sans uppercase">
           <p>© {new Date().getFullYear()} AARA Media Mission. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-gold transition-colors duration-300">Privacy Policy</a>
-            <a href="#" className="hover:text-gold transition-colors duration-300">Terms of Use</a>
+            <a href="#/privacy" className="hover:text-gold transition-colors duration-300 font-sans">Privacy Policy</a>
+            <a href="#/terms" className="hover:text-gold transition-colors duration-300 font-sans">Terms & Conditions</a>
+            <a href="#/cookie-policy" className="hover:text-gold transition-colors duration-300 font-sans">Cookie & Disclaimer</a>
           </div>
         </div>
       </div>
