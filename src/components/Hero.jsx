@@ -168,8 +168,8 @@ export default function Hero() {
             variants={itemFade}
             className="flex items-center gap-4 mt-10"
           >
-            <a href="#portfolio" className="btn-gold">
-              View Our Work
+            <a href="#services" className="btn-gold">
+              Explore Services
             </a>
             <a href="#contact" className="btn-outline">
               Start a Project

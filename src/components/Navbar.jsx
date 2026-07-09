@@ -6,7 +6,6 @@ const navLinks = [
   { name: 'Home', href: '#home', id: 'home' },
   { name: 'About', href: '#about', id: 'about' },
   { name: 'Services', href: '#services', id: 'services' },
-  { name: 'Portfolio', href: '#portfolio', id: 'portfolio' },
   { name: 'Process', href: '#process', id: 'process' },
   { name: 'Contact', href: '#contact', id: 'contact' },
 ];
@@ -40,7 +39,7 @@ export default function Navbar() {
 
   // Section observer to detect which section is currently centered on screen
   useEffect(() => {
-    const sectionIds = ['home', 'about', 'services', 'portfolio', 'process', 'contact'];
+    const sectionIds = ['home', 'about', 'services', 'process', 'contact'];
 
     const observerOptions = {
       root: null,
