@@ -201,6 +201,10 @@ export default function CinemaIntroPlayer({ onClose }) {
         fanNodeRef.current.source.stop();
         fanNodeRef.current = null;
       }
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
+        audioCtxRef.current = null;
+      }
     } catch (e) {
       console.warn("Could not stop audio context: ", e);
     }
@@ -361,7 +365,9 @@ export default function CinemaIntroPlayer({ onClose }) {
   return (
     <div className="fixed inset-0 bg-neutral-950 z-[100] overflow-hidden flex flex-col items-center justify-center select-none font-sans">
       {/* Background visualizer canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+      {phase !== 'video' && (
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+      )}
 
       {/* Floating Header Controls */}
       <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-[110]">
