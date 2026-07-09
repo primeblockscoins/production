@@ -3,9 +3,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #C9A227;
-  --color-gold-light: #E8D082;
-  --color-gold-dark: #9F7E19;
+  --color-gold: #BE5B3B;
+  --color-gold-light: #D9886C;
+  --color-gold-dark: #983F25;
   --color-cream: #FAF9F6;
   --color-cream-dark: #F3EFE0;
   --color-charcoal: #111111;
@@ -98,12 +98,38 @@ body {
 }
 
 .btn-outline:hover {
-  border-color: #C9A227;
-  color: #C9A227;
+  border-color: #BE5B3B;
+  color: #BE5B3B;
   transform: translateY(-1px);
 }
 
 .text-stroke-gold {
-  -webkit-text-stroke: 1px #C9A227;
+  -webkit-text-stroke: 1px #BE5B3B;
   color: transparent;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #BE5B3B 0%,
+    #D9886C 25%,
+    #BE5B3B 50%,
+    #D9886C 75%,
+    #BE5B3B 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
 }

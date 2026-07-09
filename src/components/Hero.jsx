@@ -1,7 +1,15 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { HiArrowDown } from 'react-icons/hi';
 
 export default function Hero() {
+  const { scrollY } = useScroll();
+  
+  // Parallax bindings
+  const bgY = useTransform(scrollY, [0, 600], ['0%', '12%']);
+  const bgScale = useTransform(scrollY, [0, 600], [1.05, 1.15]);
+  const viewfinderScale = useTransform(scrollY, [0, 400], [1, 1.04]);
+  const viewfinderOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -45,11 +53,13 @@ export default function Hero() {
       id="home"
       className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-cream"
     >
-      {/* Cinematic Projector Background Image */}
-      <div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat scale-105 transition-transform duration-1000"
+      {/* Parallax Cinematic Background Image */}
+      <motion.div
+        className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/cinema_hero_bg.png')`
+          backgroundImage: `url('/cinema_hero_bg.png')`,
+          y: bgY,
+          scale: bgScale
         }}
       />
 
@@ -82,8 +92,11 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Cinematic Viewfinder Overlay */}
-      <div className="absolute inset-4 md:inset-8 border border-gold/15 pointer-events-none z-20 flex flex-col justify-between p-4 text-[9px] font-sans tracking-[0.2em] uppercase text-gold/60">
+      {/* Cinematic Viewfinder Overlay with Scroll-linked Zoom-Out */}
+      <motion.div 
+        style={{ scale: viewfinderScale, opacity: viewfinderOpacity }}
+        className="absolute inset-4 md:inset-8 border border-gold/15 pointer-events-none z-20 flex flex-col justify-between p-4 text-[9px] font-sans tracking-[0.2em] uppercase text-gold/60"
+      >
         {/* Top Viewfinder Bar */}
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-1.5">
@@ -104,7 +117,7 @@ export default function Hero() {
           <div className="font-medium text-charcoal/60">4K RAW 10-BIT</div>
           <div className="font-medium text-charcoal/60">24 FPS</div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center flex flex-col items-center">
@@ -126,17 +139,17 @@ export default function Hero() {
           <div className="overflow-hidden py-1">
             <motion.h2
               variants={aaraVariants}
-              className="font-serif text-6xl md:text-9xl text-charcoal font-bold tracking-tight leading-none"
+              className="font-serif text-5xl md:text-7xl text-charcoal font-bold tracking-tight leading-none"
             >
               AARA
             </motion.h2>
           </div>
 
-          {/* Media Mission fade and letter spacing expand reveal */}
+          {/* Media Mission fade, letter spacing expand, and shimmer metallic gradient */}
           <div className="py-1">
             <motion.span
               variants={mediaMissionVariants}
-              className="block text-gold font-semibold italic text-3xl md:text-6xl uppercase"
+              className="block shimmer-text font-bold text-3xl md:text-6xl uppercase"
             >
               Media Mission
             </motion.span>
