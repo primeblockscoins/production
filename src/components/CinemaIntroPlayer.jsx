@@ -294,7 +294,7 @@ export default function CinemaIntroPlayer({ onClose }) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        
+
         if (isInsideCone && (phase === 'projector' || phase === 'countdown')) {
           // Glow gold inside projector beam
           ctx.fillStyle = `rgba(190, 91, 59, ${p.alpha * 2})`;
@@ -341,7 +341,7 @@ export default function CinemaIntroPlayer({ onClose }) {
   useEffect(() => {
     return () => {
       if (clickIntervalRef.current) clearInterval(clickIntervalRef.current);
-      
+
       try {
         if (humNodeRef.current) humNodeRef.current.osc.stop();
         if (fanNodeRef.current) fanNodeRef.current.source.stop();
@@ -449,7 +449,7 @@ export default function CinemaIntroPlayer({ onClose }) {
                 <div className="w-full h-[1px] bg-white/10" />
                 <div className="absolute w-[1px] h-full bg-white/10" />
               </div>
-              
+
               {/* Inner ring */}
               <div className="absolute w-28 h-28 border border-white/15 rounded-full" />
 

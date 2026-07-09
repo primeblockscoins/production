@@ -1,8 +1,12 @@
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { HiArrowDown, HiPlay } from 'react-icons/hi';
 
 export default function Hero({ onPlayIntro }) {
   const { scrollY } = useScroll();
+
+  // Live 24fps timecode ticker
+  const [timecode, setTimecode] = useState('00:00:00:00');
 
   // Parallax bindings
   const bgY = useTransform(scrollY, [0, 600], ['0%', '12%']);
@@ -10,12 +14,28 @@ export default function Hero({ onPlayIntro }) {
   const viewfinderScale = useTransform(scrollY, [0, 400], [1, 1.04]);
   const viewfinderOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
+  // Run live running timecode ticker at 24fps
+  useEffect(() => {
+    let frames = 0;
+    const interval = setInterval(() => {
+      const d = new Date();
+      const h = String(d.getHours()).padStart(2, '0');
+      const m = String(d.getMinutes()).padStart(2, '0');
+      const s = String(d.getSeconds()).padStart(2, '0');
+      const f = String(frames).padStart(2, '0');
+      setTimecode(`${h}:${m}:${s}:${f}`);
+      frames = (frames + 1) % 24;
+    }, 1000 / 24);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.25,
+        staggerChildren: 0.22,
       }
     }
   };
@@ -29,12 +49,12 @@ export default function Hero({ onPlayIntro }) {
     }
   };
 
-  const aaraVariants = {
+  const letterVariants = {
     hidden: { y: '100%', opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
@@ -55,7 +75,7 @@ export default function Hero({ onPlayIntro }) {
     >
       {/* Parallax Cinematic Background Image */}
       <motion.div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat pointer-events-none"
         style={{
           backgroundImage: `url('/cinema_hero_bg.png')`,
           y: bgY,
@@ -64,33 +84,7 @@ export default function Hero({ onPlayIntro }) {
       />
 
       {/* Soft cinematic vignette overlay blending background into the cream page */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cream/30 via-cream/60 to-cream" />
-
-      {/* Floating Light Particles (Cinematic Dust Specs) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/40 shadow-[0_0_8px_rgba(255,255,255,0.4)] blur-[3px]"
-            style={{
-              width: Math.random() * 12 + 8, // 8px to 20px
-              height: Math.random() * 12 + 8,
-              top: `${Math.random() * 80 + 10}%`,
-              left: `${Math.random() * 80 + 10}%`,
-            }}
-            animate={{
-              x: [0, Math.random() * 120 - 60, 0],
-              y: [0, Math.random() * 120 - 60, 0],
-              opacity: [0.2, 0.7, 0.2],
-            }}
-            transition={{
-              duration: Math.random() * 25 + 25,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-cream/30 via-cream/60 to-cream pointer-events-none" />
 
       {/* Cinematic Viewfinder Overlay with Scroll-linked Zoom-Out */}
       <motion.div
@@ -99,11 +93,23 @@ export default function Hero({ onPlayIntro }) {
       >
         {/* Top Viewfinder Bar */}
         <div className="flex justify-between items-center w-full">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
             <span className="font-semibold text-charcoal/70">REC</span>
+            
+            {/* Audio db monitor animation next to REC */}
+            <div className="flex items-center gap-0.5 h-3 pl-1">
+              {[...Array(5)].map((_, idx) => (
+                <motion.div
+                  key={idx}
+                  animate={{ height: [3, Math.floor(Math.random() * 7) + 2, 3] }}
+                  transition={{ duration: 0.5 + idx * 0.12, repeat: Infinity }}
+                  className="w-0.5 bg-red-500 rounded-t-sm"
+                />
+              ))}
+            </div>
           </div>
-          <div className="font-medium text-charcoal/60">TC 00:14:52:18</div>
+          <div className="font-mono font-medium text-charcoal/70 tabular-nums tracking-wider">{timecode}</div>
         </div>
 
         {/* Center Crosshair (Subtle) */}
@@ -135,13 +141,20 @@ export default function Hero({ onPlayIntro }) {
             A Cinematic Production Studio
           </motion.span>
 
-          {/* AARA slide-up masking reveal */}
+          {/* AARA staggered letter reveal */}
           <div className="overflow-hidden py-1">
             <motion.h2
-              variants={aaraVariants}
-              className="font-serif text-5xl md:text-7xl text-charcoal font-bold tracking-tight leading-none"
+              className="font-serif text-5xl md:text-7xl text-charcoal font-bold tracking-tight leading-none flex gap-2.5 justify-center"
             >
-              AARA
+              {["A", "A", "R", "A"].map((char, index) => (
+                <motion.span
+                  key={index}
+                  variants={letterVariants}
+                  className="inline-block cursor-default select-none hover:text-gold hover:-translate-y-1 transition-transform duration-300"
+                >
+                  {char}
+                </motion.span>
+              ))}
             </motion.h2>
           </div>
 
@@ -166,17 +179,26 @@ export default function Hero({ onPlayIntro }) {
           {/* CTA Buttons */}
           <motion.div
             variants={itemFade}
-            className="flex items-center gap-4 mt-10"
+            className="flex items-center gap-4 mt-10 relative z-30"
           >
-            <a href="#services" className="btn-gold">
-              Explore Services
+            {/* Primary Filled with diagonal sweep on hover */}
+            <a href="#services" className="btn-gold relative overflow-hidden group">
+              <span className="relative z-10">Explore Services</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
             </a>
-            <button onClick={onPlayIntro} className="btn-outline flex items-center gap-1.5 py-3 px-6">
-              <HiPlay size={16} className="text-gold" />
-              <span>Play Intro</span>
+            
+            <button 
+              onClick={onPlayIntro} 
+              className="btn-outline flex items-center gap-1.5 py-3 px-6 relative overflow-hidden group cursor-pointer"
+            >
+              <HiPlay size={16} className="text-gold relative z-10 transition-transform duration-300 group-hover:scale-110" />
+              <span className="relative z-10">Play Intro</span>
+              <span className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
-            <a href="#contact" className="btn-outline">
-              Start a Project
+
+            <a href="#contact" className="btn-outline relative overflow-hidden group">
+              <span className="relative z-10">Start a Project</span>
+              <span className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
           </motion.div>
         </motion.div>
