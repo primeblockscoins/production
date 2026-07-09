@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import InteractiveClapperboard from './InteractiveClapperboard';
 
 export default function About() {
   const ref = useRef(null);
@@ -31,10 +32,7 @@ export default function About() {
   return (
     <section 
       id="about" 
-      className="py-24 md:py-32 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #F0F7FA 0%, #FAF9F6 50%, #F0F6F2 100%)'
-      }}
+      className="py-24 md:py-32 overflow-hidden bg-cream"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Split Layout */}
@@ -86,29 +84,15 @@ export default function About() {
             </motion.p>
           </motion.div>
 
-          {/* Visual Showcase (Clapperboard Slate - Slides from Right & Tilts on Hover) */}
+          {/* Visual Showcase (Interactive Clapperboard - Slides from Right) */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
+            className="w-full flex justify-center"
           >
-            {/* Aspect Video container with tilt hover animation */}
-            <motion.div 
-              whileHover={{ scale: 1.02, rotate: -0.5 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="aspect-video overflow-hidden rounded shadow-2xl relative group cursor-pointer"
-            >
-              <img
-                src="/cinema_clapperboard.png"
-                alt="Cinema Production Clapperboard Slate"
-                className="w-full h-full object-cover transition-transform duration-750 group-hover:scale-[1.03]"
-                loading="lazy"
-              />
-              {/* Subtle glass reflection overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-charcoal/30 via-transparent to-white/10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-            </motion.div>
+            <InteractiveClapperboard />
           </motion.div>
           
         </div>
