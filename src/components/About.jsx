@@ -101,7 +101,7 @@ export default function About() {
               className="aspect-video overflow-hidden rounded shadow-2xl relative group cursor-pointer"
             >
               <img
-                src="https://images.unsplash.com/photo-1518134346374-184f9d21cb3d?auto=format&fit=crop&w=800&q=80"
+                src="/cinema_clapperboard.png"
                 alt="Cinema Production Clapperboard Slate"
                 className="w-full h-full object-cover transition-transform duration-750 group-hover:scale-[1.03]"
                 loading="lazy"
