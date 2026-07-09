@@ -45,16 +45,16 @@ export default function Process() {
     <section 
       ref={containerRef}
       id="process" 
-      className="py-24 md:py-32 bg-cream relative overflow-hidden"
+      className="py-14 md:py-20 bg-cream relative overflow-hidden"
     >
       {/* Background Soft Blobs */}
-      <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-gold/5 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/3 left-0 w-80 h-80 rounded-full bg-cream-dark/40 blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(190,91,59,0.08)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute bottom-1/3 left-0 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(243,239,224,0.6)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
-        <div className="text-center mb-20 md:mb-28">
+        <div className="text-center mb-10 md:mb-12">
           <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-semibold">Workflow</span>
           <h2 className="font-serif text-4xl md:text-6xl text-charcoal font-bold tracking-tight mt-2">
             The Cinematic Pipeline
@@ -77,7 +77,7 @@ export default function Process() {
           />
 
           {/* Timeline steps */}
-          <div className="flex flex-col gap-16 md:gap-24">
+          <div className="flex flex-col gap-10 md:gap-14">
             {steps.map((step, idx) => {
               const Icon = step.icon;
               const isEven = idx % 2 === 0;

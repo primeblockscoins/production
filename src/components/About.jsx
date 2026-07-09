@@ -41,7 +41,7 @@ export default function About() {
     <section
       ref={containerRef}
       id="about"
-      className="py-24 md:py-32 overflow-hidden bg-cream relative"
+      className="py-14 md:py-20 overflow-hidden bg-cream relative"
     >
       {/* Subtle Cinematic Static Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">

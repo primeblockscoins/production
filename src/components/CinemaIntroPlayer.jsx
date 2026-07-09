@@ -236,6 +236,7 @@ export default function CinemaIntroPlayer({ onClose }) {
     }
 
     const draw = () => {
+      if (phase === 'video') return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw volumetric projection cone from bottom center or top center

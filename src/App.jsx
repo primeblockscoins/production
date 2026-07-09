@@ -51,8 +51,8 @@ function App() {
   return (
     <div className="bg-cream min-h-screen text-charcoal flex flex-col w-full relative overflow-x-hidden font-sans">
       {/* Decorative ambient light leaks drifting across the whole page */}
-      <div className="absolute top-1/4 right-0 w-[45vw] h-[45vw] rounded-full bg-gold/5 blur-[160px] pointer-events-none animate-float-1 z-0" />
-      <div className="absolute top-2/3 left-0 w-[40vw] h-[40vw] rounded-full bg-gold-light/5 blur-[160px] pointer-events-none animate-float-2 z-0" />
+      <div className="absolute top-1/4 right-0 w-[45vw] h-[45vw] rounded-full bg-[radial-gradient(circle,rgba(190,91,59,0.08)_0%,transparent_70%)] pointer-events-none animate-float-1 z-0" />
+      <div className="absolute top-2/3 left-0 w-[40vw] h-[40vw] rounded-full bg-[radial-gradient(circle,rgba(217,136,108,0.08)_0%,transparent_70%)] pointer-events-none animate-float-2 z-0" />
 
       {currentPage === 'main' ? (
         <>

@@ -82,10 +82,10 @@ export default function Services({ onServiceSelect }) {
   };
 
   return (
-    <section id="services" className="py-24 md:py-32 bg-cream-dark/20 relative">
+    <section id="services" className="py-14 md:py-20 bg-cream-dark/20 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Header */}
-        <div className="text-center mb-16 md:mb-24">
+        <div className="text-center mb-10 md:mb-12">
           <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-semibold">Capabilities</span>
           <h2 className="font-serif text-4xl md:text-6xl text-charcoal font-bold tracking-tight mt-2">
             Cinematic Expertise

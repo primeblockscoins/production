@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { HiArrowDown, HiPlay } from 'react-icons/hi';
 
 export default function Hero({ onPlayIntro }) {
   const { scrollY } = useScroll();
 
-  // Live 24fps timecode ticker
-  const [timecode, setTimecode] = useState('00:00:00:00');
+  // Live 24fps timecode ticker (ref-based for performance)
+  const timecodeRef = useRef(null);
 
   // Parallax bindings
   const bgY = useTransform(scrollY, [0, 600], ['0%', '12%']);
@@ -23,7 +23,9 @@ export default function Hero({ onPlayIntro }) {
       const m = String(d.getMinutes()).padStart(2, '0');
       const s = String(d.getSeconds()).padStart(2, '0');
       const f = String(frames).padStart(2, '0');
-      setTimecode(`${h}:${m}:${s}:${f}`);
+      if (timecodeRef.current) {
+        timecodeRef.current.textContent = `${h}:${m}:${s}:${f}`;
+      }
       frames = (frames + 1) % 24;
     }, 1000 / 24);
 
@@ -159,7 +161,7 @@ export default function Hero({ onPlayIntro }) {
               ))}
             </div>
           </div>
-          <div className="font-mono font-medium text-charcoal/70 tabular-nums tracking-wider">{timecode}</div>
+          <div ref={timecodeRef} className="font-mono font-medium text-charcoal/70 tabular-nums tracking-wider">00:00:00:00</div>
         </div>
 
         {/* Center Crosshair (Subtle) */}

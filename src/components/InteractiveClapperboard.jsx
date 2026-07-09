@@ -4,18 +4,16 @@ import { motion, useAnimation } from 'framer-motion';
 export default function InteractiveClapperboard() {
   const [take, setTake] = useState(1);
   const [isClapping, setIsClapping] = useState(false);
-  const [timecode, setTimecode] = useState('16:21:34:00');
   const [isHovered, setIsHovered] = useState(false);
   const [flash, setFlash] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
 
   const cardRef = useRef(null);
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
+  const timecodeRef = useRef(null);
 
   const controls = useAnimation();
 
-  // Live running 24fps timecode logic
+  // Live running 24fps timecode logic (ref-based for performance)
   useEffect(() => {
     let frame = 0;
     let sec = 34;
@@ -41,7 +39,9 @@ export default function InteractiveClapperboard() {
       }
 
       const pad = (num) => String(num).padStart(2, '0');
-      setTimecode(`${pad(hour)}:${pad(min)}:${pad(sec)}:${pad(frame)}`);
+      if (timecodeRef.current) {
+        timecodeRef.current.textContent = `${pad(hour)}:${pad(min)}:${pad(sec)}:${pad(frame)}`;
+      }
     }, 1000 / 24);
 
     return () => clearInterval(interval);
@@ -145,27 +145,8 @@ export default function InteractiveClapperboard() {
     setIsClapping(false);
   };
 
-  // Calculate 3D perspective rotation values based on mouse position
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left - width / 2;
-    const mouseY = e.clientY - rect.top - height / 2;
-
-    // Convert mouse offsets to subtle tilt values (max 8 degrees)
-    const rX = -(mouseY / (height / 2)) * 8;
-    const rY = (mouseX / (width / 2)) * 8;
-
-    setRotateX(rX);
-    setRotateY(rY);
-  };
-
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setRotateX(0);
-    setRotateY(0);
   };
 
   const clapperStripes = {
@@ -176,12 +157,9 @@ export default function InteractiveClapperboard() {
     <div className="relative w-full aspect-[16/10] max-w-xl mx-auto z-10 flex items-center justify-center p-2 select-none">
       <motion.div
         ref={cardRef}
-        onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
         onClick={handleClap}
-        animate={{ rotateX, rotateY }}
-        style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
         className="w-full h-full bg-[#151515] border border-neutral-800 rounded shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col justify-between overflow-hidden cursor-pointer relative group transition-shadow duration-300 hover:shadow-[0_25px_60px_rgba(190,91,59,0.15)]"
       >
         {/* Shutter Camera Flash Overlay */}
@@ -268,12 +246,13 @@ export default function InteractiveClapperboard() {
 
             {/* LED Glowing text */}
             <span
+              ref={timecodeRef}
               style={{
                 textShadow: '0 0 8px rgba(190,91,59,0.5), 0 0 20px rgba(190,91,59,0.3)',
               }}
               className="font-mono text-2xl md:text-3xl font-semibold tracking-wider text-[#BE5B3B]"
             >
-              {timecode}
+              16:21:34:00
             </span>
           </div>
 
