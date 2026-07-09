@@ -479,7 +479,7 @@ export default function CinemaIntroPlayer({ onClose }) {
               <div className="relative w-full h-full flex items-center justify-center max-w-7xl aspect-video">
                 <video
                   ref={videoRef}
-                  src="/you_remove_the_gemini_logo_in.mp4"
+                  src="/logivideo.mp4"
                   autoPlay
                   playsInline
                   muted={muted}
