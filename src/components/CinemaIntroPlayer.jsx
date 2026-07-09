@@ -476,17 +476,15 @@ export default function CinemaIntroPlayer({ onClose }) {
               transition={{ duration: 0.8 }}
               className="absolute inset-0 w-full h-full flex items-center justify-center bg-black"
             >
-              <div className="relative w-full h-full flex items-center justify-center max-w-7xl aspect-video">
-                <video
-                  ref={videoRef}
-                  src="/logovideo.mp4"
-                  autoPlay
-                  playsInline
-                  muted={muted}
-                  onEnded={onClose}
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <video
+                ref={videoRef}
+                src="/logovideo.mp4"
+                autoPlay
+                playsInline
+                muted={muted}
+                onEnded={onClose}
+                className="max-w-full max-h-full object-contain"
+              />
             </motion.div>
           )}
         </AnimatePresence>
