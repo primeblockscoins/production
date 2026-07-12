@@ -141,7 +141,7 @@ export default function Navbar({ onServiceSelect }) {
               >
                 <a
                   href={link.href}
-                  className={`text-xs font-semibold uppercase tracking-widest transition-colors duration-300 relative group flex items-center gap-1 ${
+                  className={`text-xs font-semibold uppercase tracking-widest transition-colors duration-300 relative group flex items-center gap-1.5 px-3 py-1.5 rounded-sm ${
                     isActive ? 'text-gold font-bold' : 'text-charcoal/80 hover:text-gold'
                   }`}
                 >
@@ -150,6 +150,37 @@ export default function Navbar({ onServiceSelect }) {
                     <span className={`transform transition-transform duration-300 ${megaMenuOpen ? 'rotate-90 text-gold' : 'text-charcoal/60'}`}>
                       <HiChevronRight size={10} />
                     </span>
+                  )}
+
+                  {/* Cinematic Camera Viewfinder - Active State (Slides and morphs fluidly between links) */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-active-focus"
+                      className="absolute inset-0 pointer-events-none z-10"
+                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                    >
+                      {/* L-brackets for camera focus area */}
+                      <span className="absolute top-0 left-0 w-2 h-2 border-t-[1.5px] border-l-[1.5px] border-gold" />
+                      <span className="absolute top-0 right-0 w-2 h-2 border-t-[1.5px] border-r-[1.5px] border-gold" />
+                      <span className="absolute bottom-0 left-0 w-2 h-2 border-b-[1.5px] border-l-[1.5px] border-gold" />
+                      <span className="absolute bottom-0 right-0 w-2 h-2 border-b-[1.5px] border-r-[1.5px] border-gold" />
+                      
+                      {/* Red Blinking Recording Indicator Dot */}
+                      <span className="absolute -top-0.5 -right-0.5 flex h-1.5 w-1.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600 shadow-[0_0_6px_rgba(220,38,38,0.8)]"></span>
+                      </span>
+                    </motion.div>
+                  )}
+
+                  {/* Cinematic Camera Viewfinder - Hover State (Gently fades/scales in) */}
+                  {!isActive && (
+                    <div className="absolute inset-0 pointer-events-none opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-10">
+                      <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-gold/45" />
+                      <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-gold/45" />
+                      <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-gold/45" />
+                      <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-gold/45" />
+                    </div>
                   )}
                 </a>
               </div>
@@ -287,11 +318,14 @@ export default function Navbar({ onServiceSelect }) {
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: idx * 0.05 }}
-                    className={`text-sm font-semibold uppercase tracking-widest py-2 border-b border-charcoal/5 transition-colors duration-300 ${
+                    className={`text-sm font-semibold uppercase tracking-widest py-2 border-b border-charcoal/5 transition-colors duration-300 flex items-center justify-between ${
                       isActive ? 'text-gold font-bold' : 'text-charcoal/80 hover:text-gold'
                     }`}
                   >
-                    {link.name}
+                    <span>{link.name}</span>
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_4px_rgba(220,38,38,0.6)] animate-pulse mr-2" />
+                    )}
                   </motion.a>
                 );
               })}
