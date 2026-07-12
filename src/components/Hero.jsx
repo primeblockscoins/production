@@ -103,7 +103,8 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
           backgroundImage: `url('/cinema_hero_bg.png')`,
           y: bgY,
           scale: bgScale,
-          opacity: bgOpacity
+          opacity: bgOpacity,
+          willChange: 'transform, opacity'
         }}
       />
 
@@ -127,6 +128,7 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
             repeatDelay: 4, 
             ease: [0.25, 0.1, 0.25, 1.0] 
           }}
+          style={{ willChange: 'transform, opacity' }}
           className="absolute w-[200%] h-[1.5px] bg-gradient-to-r from-transparent via-[#BE5B3B]/40 via-white/70 via-[#BE5B3B]/40 to-transparent blur-[0.5px]"
         />
         
@@ -145,13 +147,14 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
             repeatDelay: 4, 
             ease: [0.25, 0.1, 0.25, 1.0] 
           }}
+          style={{ willChange: 'transform, opacity' }}
           className="absolute w-36 h-36 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.22)_0%,transparent_70%)] blur-sm"
         />
       </div>
 
       {/* Cinematic Viewfinder Overlay with Scroll-linked Zoom-Out */}
       <motion.div
-        style={{ scale: viewfinderScale, opacity: viewfinderOpacity }}
+        style={{ scale: viewfinderScale, opacity: viewfinderOpacity, willChange: 'transform, opacity' }}
         className="absolute inset-4 md:inset-8 border border-gold/15 pointer-events-none z-20 flex flex-col justify-between p-4 text-[9px] font-sans tracking-[0.2em] uppercase text-gold/60"
       >
         {/* Top Viewfinder Bar */}
@@ -190,7 +193,7 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
 
       {/* Content */}
       <motion.div 
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={{ y: contentY, opacity: contentOpacity, willChange: 'transform, opacity' }}
         className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center flex flex-col items-center"
       >
         <motion.div

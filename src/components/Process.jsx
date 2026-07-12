@@ -72,7 +72,7 @@ export default function Process() {
           
           {/* Active Filled Line linked to scroll */}
           <motion.div 
-            style={{ scaleY, transformOrigin: 'top' }}
+            style={{ scaleY, transformOrigin: 'top', willChange: 'transform' }}
             className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2.5px] bg-gradient-to-b from-gold via-gold-light to-gold shadow-[0_0_10px_#BE5B3B] -translate-x-1/2"
           />
 

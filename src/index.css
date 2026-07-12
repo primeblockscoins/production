@@ -221,55 +221,58 @@ body {
   opacity: 0.055;
   pointer-events: none;
   animation: film-grain-flicker 0.6s steps(6) infinite;
+  will-change: transform; /* Promote to GPU composite layer for high-speed background translates */
 }
 
 /* n8n Chat Widget Custom Cinema Overrides */
 :root {
-  /* Theme Colors */
+  /* Theme Colors - Premium Light Mode */
   --chat--color--primary: #BE5B3B !important; /* AARA Gold/Rust */
   --chat--color--primary-shade-50: #D9886C !important;
   --chat--color--primary--shade-100: #983F25 !important;
-  --chat--color--secondary: #111111 !important; /* AARA Charcoal */
-  --chat--color-secondary-shade-50: #1a1a1a !important;
+  --chat--color--secondary: #FAF9F6 !important; /* Warm Cream */
+  --chat--color-secondary-shade-50: #f0eee8 !important;
   
-  --chat--color-dark: #ffffff !important; 
-  --chat--color-white: #121212 !important;
-  --chat--color-light: #0d0d0d !important;
-  --chat--color-light-shade-50: #181818 !important;
-  --chat--color-light-shade-100: #222222 !important;
+  --chat--color-dark: #111111 !important; /* Charcoal text */
+  --chat--color-white: #ffffff !important; /* White inputs/cards */
+  --chat--color-light: #FAF9F6 !important; /* Warm light backgrounds */
+  --chat--color-light-shade-50: #f0eee8 !important;
+  --chat--color-light-shade-100: #e2dfd5 !important;
 
   /* Font & Dimensions */
   --chat--font-family: "Plus Jakarta Sans", "Inter", sans-serif !important;
   --chat--window--border-radius: 8px !important;
-  --chat--window--border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  --chat--window--width: 380px !important;
-  --chat--window--height: 520px !important;
+  --chat--window--border: 1px solid rgba(17, 17, 17, 0.08) !important;
+  --chat--window--width: 340px !important;  /* Made smaller and neater */
+  --chat--window--height: 480px !important; /* Made smaller and neater */
 
   /* Header Overrides */
-  --chat--header--background: #0a0a0a !important;
-  --chat--header--color: #ffffff !important;
-  --chat--header--border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  --chat--header--background: #ffffff !important;
+  --chat--header--color: #111111 !important;
+  --chat--header--border-bottom: 1px solid rgba(17, 17, 17, 0.08) !important;
+  --chat--heading--font-size: 1.15rem !important; /* Neat, single-line text size */
+  --chat--subtitle--font-size: 0.75rem !important;
 
   /* Message List & Bubbles */
-  --chat--body--background: #111111 !important;
+  --chat--body--background: #FAF9F6 !important;
   --chat--messages-list--padding: 1.25rem !important;
 
   /* Bot Message (AI Response) */
-  --chat--message--bot--background: #181818 !important;
-  --chat--message--bot--color: #ffffff !important;
-  --chat--message--bot--border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  --chat--message--bot--background: #ffffff !important;
+  --chat--message--bot--color: #111111 !important;
+  --chat--message--bot--border: 1px solid rgba(17, 17, 17, 0.06) !important;
 
   /* User Message */
   --chat--message--user--background: #BE5B3B !important;
   --chat--message--user--color: #ffffff !important;
 
   /* Input Box & Send button */
-  --chat--input--background: #080808 !important;
-  --chat--input--text-color: #ffffff !important;
-  --chat--input--container--background: #080808 !important;
-  --chat--input--container--border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  --chat--input--background: #ffffff !important;
+  --chat--input--text-color: #111111 !important;
+  --chat--input--container--background: #ffffff !important;
+  --chat--input--container--border: 1px solid rgba(17, 17, 17, 0.08) !important;
   --chat--input--send--button--color: #BE5B3B !important;
-  --chat--input--send--button--background: #080808 !important;
+  --chat--input--send--button--background: #ffffff !important;
 
   /* Floating Bubble Toggle */
   --chat--toggle--background: #BE5B3B !important;
@@ -281,37 +284,43 @@ body {
 /* Custom UI Polish for n8n Chat Widget */
 .n8n-chat {
   font-family: "Plus Jakarta Sans", "Inter", sans-serif !important;
+  overflow: visible !important; /* Allow the trigger button to animate and float without clipping */
+}
+
+/* Target the actual chat window (every child of root wrapper except the toggle button) */
+.n8n-chat > :not(.chat-toggle) {
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.08) !important;
+  animation: chat-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid rgba(17, 17, 17, 0.08) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background-color: #FAF9F6 !important; /* Warm light background to match */
+  will-change: transform, opacity; /* Enable hardware compositing layer to eliminate scroll stutter */
 }
 
 /* Make widget bubble look like a premium lens trigger with glow */
-.chat-toggle {
-  box-shadow: 0 4px 20px rgba(190, 91, 59, 0.45) !important;
+.chat-toggle,
+.n8n-chat button,
+.n8n-chat [class*="toggle"],
+.n8n-chat [class*="trigger"] {
+  background-color: #BE5B3B !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(190, 91, 59, 0.35) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s !important;
-  animation: pulse-glow 3s infinite alternate !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s, box-shadow 0.25s !important;
+  will-change: transform; /* Force hardware acceleration / compositing layer */
 }
 
-@keyframes pulse-glow {
-  0% {
-    box-shadow: 0 4px 15px rgba(190, 91, 59, 0.4);
-  }
-  100% {
-    box-shadow: 0 4px 25px rgba(190, 91, 59, 0.7);
-    transform: scale(1.02);
-  }
+.chat-toggle svg,
+.n8n-chat button svg,
+.n8n-chat [class*="toggle"] svg {
+  fill: #ffffff !important;
+  color: #ffffff !important;
 }
 
 .chat-toggle:hover {
   transform: scale(1.08) rotate(5deg) !important;
-}
-
-/* Slide in animation for chat window */
-.n8n-chat {
-  animation: chat-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 8px !important;
-  overflow: hidden !important;
 }
 
 @keyframes chat-slide-in {
