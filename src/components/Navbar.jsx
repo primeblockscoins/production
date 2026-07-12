@@ -151,10 +151,6 @@ export default function Navbar({ onServiceSelect }) {
                       <HiChevronRight size={10} />
                     </span>
                   )}
-                  {/* Underline indicators */}
-                  <span className={`absolute bottom-0 left-0 h-[2px] bg-gold transition-all duration-300 ${
-                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`} />
                 </a>
               </div>
             );
