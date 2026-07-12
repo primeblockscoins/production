@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import ServiceDetailsModal from './components/ServiceDetailsModal';
 import PolicyPage from './components/PolicyPage';
 import CinemaIntroPlayer from './components/CinemaIntroPlayer';
+import ChatWidget from './components/ChatWidget';
 
 function App() {
   const [selectedService, setSelectedService] = useState(null);
@@ -85,6 +86,9 @@ function App() {
           />
         )}
       </AnimatePresence>
+
+      {/* Dynamic n8n AI Chat Agent Widget */}
+      <ChatWidget />
     </div>
   );
 }
