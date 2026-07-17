@@ -186,7 +186,7 @@ export default function Navbar({ onServiceSelect }) {
               </div>
             );
           })}
-          <a href="#contact" className="btn-gold !py-2 !px-4 text-[10px] shadow-sm hover:shadow-[0_4px_12px_rgba(190,91,59,0.2)]">
+          <a href="#contact" className="btn-gold !py-2 !px-4 text-[10px] shadow-sm hover:shadow-[0_4px_12px_rgba(199,152,79,0.2)]">
             Book Consult
           </a>
         </div>
@@ -344,7 +344,7 @@ export default function Navbar({ onServiceSelect }) {
       {/* Scrolling Indicator Progress Bar at the bottom edge */}
       <div className="absolute bottom-0 left-0 w-full h-[2px] bg-charcoal/5">
         <motion.div
-          className="h-full bg-gold shadow-[0_0_8px_rgba(190,91,59,0.6)]"
+          className="h-full bg-gold shadow-[0_0_8px_rgba(199,152,79,0.6)]"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>

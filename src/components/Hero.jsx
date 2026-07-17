@@ -129,7 +129,7 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
             ease: [0.25, 0.1, 0.25, 1.0] 
           }}
           style={{ willChange: 'transform, opacity' }}
-          className="absolute w-[200%] h-[1.5px] bg-gradient-to-r from-transparent via-[#BE5B3B]/40 via-white/70 via-[#BE5B3B]/40 to-transparent blur-[0.5px]"
+          className="absolute w-[200%] h-[1.5px] bg-gradient-to-r from-transparent via-[#c7984f]/40 via-white/70 via-[#c7984f]/40 to-transparent blur-[0.5px]"
         />
         
         {/* Glowing lens center spot */}

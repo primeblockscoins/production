@@ -836,7 +836,7 @@ function SoundPanel() {
         ? (faders.master / 100) * 45 // max height scaling
         : 0;
 
-      ctx.strokeStyle = '#BE5B3B'; // gold color
+      ctx.strokeStyle = '#c7984f'; // gold color
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
       ctx.beginPath();

@@ -116,7 +116,7 @@ export default function Services({ onServiceSelect }) {
                 className="bg-white p-8 rounded shadow-sm border border-charcoal/5 hover:shadow-xl hover:border-gold/30 transition-all duration-300 group spotlight-card cursor-pointer overflow-hidden relative"
               >
                 {/* Icon Container (relative and z-10 to stay above spotlight gradient) */}
-                <div className="relative z-10 w-12 h-12 bg-cream-dark flex items-center justify-center rounded text-gold mb-6 transition-all duration-500 group-hover:bg-gold group-hover:text-white group-hover:scale-105 group-hover:shadow-[0_4px_12px_rgba(190,91,59,0.2)]">
+                <div className="relative z-10 w-12 h-12 bg-cream-dark flex items-center justify-center rounded text-gold mb-6 transition-all duration-500 group-hover:bg-gold group-hover:text-white group-hover:scale-105 group-hover:shadow-[0_4px_12px_rgba(199,152,79,0.2)]">
                   <Icon size={24} className="transition-transform duration-500 group-hover:rotate-12" />
                 </div>
                 {/* Title */}

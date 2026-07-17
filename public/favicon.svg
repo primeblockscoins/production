@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <style>
-    .brand-gold { stroke: #BE5B3B; }
+    .brand-gold { stroke: #c7984f; }
     .brand-body { stroke: #2A2A2A; }
     @media (prefers-color-scheme: dark) {
       .brand-body { stroke: #FFFFFF; }

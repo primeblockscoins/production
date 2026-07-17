@@ -162,7 +162,7 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
         onClick={handleClap}
-        className="w-full h-full bg-[#151515] border border-neutral-800 rounded shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col justify-between overflow-hidden cursor-pointer relative group transition-shadow duration-300 hover:shadow-[0_25px_60px_rgba(190,91,59,0.15)]"
+        className="w-full h-full bg-[#151515] border border-neutral-800 rounded shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col justify-between overflow-hidden cursor-pointer relative group transition-shadow duration-300 hover:shadow-[0_25px_60px_rgba(199,152,79,0.15)]"
       >
         {/* Shutter Camera Flash Overlay */}
         <motion.div
@@ -209,7 +209,7 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
             </div>
             {/* Glowing active REC indicator */}
             <div className="flex items-center gap-1.5 bg-black/40 px-2 py-0.5 rounded border border-neutral-800/50">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#BE5B3B] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c7984f] animate-pulse" />
               <span className="text-[8px] tracking-widest font-semibold text-neutral-400">ROLLING</span>
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
               <span className="font-mono text-base md:text-lg text-cream/90 font-bold rotate-[1deg]">04</span>
             </div>
             <div className="flex flex-col justify-center relative group/take">
-              <span className="text-[8px] tracking-widest uppercase text-[#BE5B3B] font-bold mb-1">Take</span>
+              <span className="text-[8px] tracking-widest uppercase text-[#c7984f] font-bold mb-1">Take</span>
               <motion.span
                 key={take}
                 initial={{ scale: 0.8, opacity: 0.5 }}
@@ -250,9 +250,9 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
             <span
               ref={timecodeRef}
               style={{
-                textShadow: '0 0 8px rgba(190,91,59,0.5), 0 0 20px rgba(190,91,59,0.3)',
+                textShadow: '0 0 8px rgba(199,152,79,0.5), 0 0 20px rgba(199,152,79,0.3)',
               }}
-              className="font-mono text-2xl md:text-3xl font-semibold tracking-wider text-[#BE5B3B]"
+              className="font-mono text-2xl md:text-3xl font-semibold tracking-wider text-[#c7984f]"
             >
               16:21:34:00
             </span>
@@ -278,7 +278,7 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
               </div>
               <div className="flex flex-col">
                 <span className="text-[7px] tracking-widest uppercase text-neutral-500 font-bold">FPS</span>
-                <span className="font-semibold text-[#BE5B3B]">24.00 fps</span>
+                <span className="font-semibold text-[#c7984f]">24.00 fps</span>
               </div>
             </div>
           </div>
@@ -286,7 +286,7 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
         </div>
 
         {/* Hover / Hint Border highlight */}
-        <div className="absolute inset-0 border border-[#BE5B3B]/0 group-hover:border-[#BE5B3B]/15 transition-colors duration-300 rounded pointer-events-none" />
+        <div className="absolute inset-0 border border-[#c7984f]/0 group-hover:border-[#c7984f]/15 transition-colors duration-300 rounded pointer-events-none" />
       </motion.div>
     </div>
   );

@@ -48,7 +48,7 @@ export default function Process() {
       className="py-14 md:py-20 bg-cream relative overflow-hidden"
     >
       {/* Background Soft Blobs */}
-      <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(190,91,59,0.08)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(199,152,79,0.08)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute bottom-1/3 left-0 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(243,239,224,0.6)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
@@ -73,7 +73,7 @@ export default function Process() {
           {/* Active Filled Line linked to scroll */}
           <motion.div 
             style={{ scaleY, transformOrigin: 'top', willChange: 'transform' }}
-            className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2.5px] bg-gradient-to-b from-gold via-gold-light to-gold shadow-[0_0_10px_#BE5B3B] -translate-x-1/2"
+            className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2.5px] bg-gradient-to-b from-gold via-gold-light to-gold shadow-[0_0_10px_#c7984f] -translate-x-1/2"
           />
 
           {/* Timeline steps */}

@@ -27,12 +27,8 @@ export default function PolicyPage({ type }) {
       {/* Header Bar */}
       <header className="border-b border-charcoal/5 bg-white/70 backdrop-blur-md sticky top-0 z-30 py-5 select-none">
         <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
-          <a href="#/" className="flex items-center gap-3">
-            <AaraLogo darkBackground={false} />
-            <div className="flex flex-col">
-              <span className="font-serif text-base font-bold tracking-widest text-charcoal leading-none">AARA</span>
-              <span className="text-[7px] tracking-[0.25em] text-gold uppercase font-medium mt-0.5">MEDIA MISSION</span>
-            </div>
+          <a href="#/" className="flex items-center" aria-label="AARA Media Mission home">
+            <AaraLogo size="policy" />
           </a>
 
           <a

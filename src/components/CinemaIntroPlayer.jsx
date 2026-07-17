@@ -210,6 +210,15 @@ export default function CinemaIntroPlayer({ onClose }) {
     }
   }, [phase]);
 
+  // Play the preloaded video when video phase begins
+  useEffect(() => {
+    if (phase === 'video' && videoRef.current) {
+      videoRef.current.play().catch((err) => {
+        console.warn("Playback failed: ", err);
+      });
+    }
+  }, [phase]);
+
   // Volumetric light beam and dust particles canvas visualizer
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -252,7 +261,7 @@ export default function CinemaIntroPlayer({ onClose }) {
       ctx.save();
       const flareGrad = ctx.createRadialGradient(originX, originY, 2, originX, originY, 40);
       flareGrad.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-      flareGrad.addColorStop(0.2, 'rgba(190, 91, 59, 0.5)'); // Gold halo
+      flareGrad.addColorStop(0.2, 'rgba(199, 152, 79, 0.5)'); // Gold halo
       flareGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = flareGrad;
       ctx.beginPath();
@@ -268,8 +277,8 @@ export default function CinemaIntroPlayer({ onClose }) {
           originX, canvas.height * 0.7, canvas.width * 0.6
         );
         beamGrad.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
-        beamGrad.addColorStop(0.3, 'rgba(190, 91, 59, 0.06)'); // gold tint
-        beamGrad.addColorStop(0.7, 'rgba(190, 91, 59, 0.015)');
+        beamGrad.addColorStop(0.3, 'rgba(199, 152, 79, 0.06)'); // gold tint
+        beamGrad.addColorStop(0.7, 'rgba(199, 152, 79, 0.015)');
         beamGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         ctx.fillStyle = beamGrad;
@@ -302,8 +311,8 @@ export default function CinemaIntroPlayer({ onClose }) {
 
         if (isInsideCone && (phase === 'projector' || phase === 'countdown')) {
           // Glow gold inside projector beam
-          ctx.fillStyle = `rgba(190, 91, 59, ${p.alpha * 2})`;
-          ctx.shadowColor = '#BE5B3B';
+          ctx.fillStyle = `rgba(199, 152, 79, ${p.alpha * 2})`;
+          ctx.shadowColor = '#c7984f';
           ctx.shadowBlur = 4;
         } else {
           ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
@@ -372,7 +381,7 @@ export default function CinemaIntroPlayer({ onClose }) {
       {/* Floating Header Controls */}
       <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-[110]">
         <div className="flex items-center gap-1 bg-black/40 px-3 py-1 rounded-full border border-white/5 backdrop-blur-md">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#BE5B3B] animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#c7984f] animate-pulse" />
           <span className="text-[10px] tracking-[0.25em] font-bold text-neutral-400 uppercase">THEATER MODE</span>
         </div>
 
@@ -391,13 +400,32 @@ export default function CinemaIntroPlayer({ onClose }) {
           {/* Close / Skip */}
           <button
             onClick={onClose}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-white/70 hover:text-white hover:bg-white/15 hover:border-[#BE5B3B]/40 transition-all duration-300 backdrop-blur-md"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-white/70 hover:text-white hover:bg-white/15 hover:border-[#c7984f]/40 transition-all duration-300 backdrop-blur-md"
           >
             <span>Skip Intro</span>
             <HiX size={14} />
           </button>
         </div>
       </div>
+
+      {/* Preloaded Video Layer - Preloaded during warmup and countdown for zero lag */}
+      {phase !== 'init' && (
+        <div
+          className={`absolute inset-0 w-full h-full flex items-center justify-center bg-black ${
+            phase === 'video' ? 'opacity-100 z-[106] pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+          }`}
+        >
+          <video
+            ref={videoRef}
+            src="/logo_reveal.mp4"
+            preload="auto"
+            playsInline
+            muted={muted}
+            onEnded={onClose}
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
 
       {/* Presentation Switchboard */}
       <div className="z-[105] text-center max-w-lg px-6 flex flex-col items-center justify-center">
@@ -420,7 +448,7 @@ export default function CinemaIntroPlayer({ onClose }) {
               </p>
               <button
                 onClick={enterTheater}
-                className="px-8 py-3 rounded bg-[#BE5B3B] hover:bg-[#BE5B3B]/90 text-white text-sm font-semibold tracking-widest uppercase transition-all duration-300 shadow-lg shadow-[#BE5B3B]/20"
+                className="px-8 py-3 rounded bg-[#c7984f] hover:bg-[#c7984f]/90 text-white text-sm font-semibold tracking-widest uppercase transition-all duration-300 shadow-lg shadow-[#c7984f]/20"
               >
                 Enter Theater
               </button>
@@ -436,7 +464,7 @@ export default function CinemaIntroPlayer({ onClose }) {
               exit={{ opacity: 0 }}
               className="text-center"
             >
-              <p className="text-xs tracking-[0.4em] text-[#BE5B3B] uppercase font-semibold animate-pulse">
+              <p className="text-xs tracking-[0.4em] text-[#c7984f] uppercase font-semibold animate-pulse">
                 Warming up Projector...
               </p>
             </motion.div>
@@ -470,28 +498,6 @@ export default function CinemaIntroPlayer({ onClose }) {
               >
                 {countdown}
               </motion.span>
-            </motion.div>
-          )}
-
-          {/* Phase 3: Volumetric Video Intro Playback */}
-          {phase === 'video' && (
-            <motion.div
-              key="video"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="absolute inset-0 w-full h-full flex items-center justify-center bg-black"
-            >
-              <video
-                ref={videoRef}
-                src="/logovideo.mp4"
-                autoPlay
-                playsInline
-                muted={muted}
-                onEnded={onClose}
-                className="max-w-full max-h-full object-contain"
-              />
             </motion.div>
           )}
         </AnimatePresence>

@@ -3,9 +3,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #BE5B3B;
-  --color-gold-light: #D9886C;
-  --color-gold-dark: #983F25;
+  --color-gold: #c7984f;
+  --color-gold-light: #e2caa4;
+  --color-gold-dark: #9b7436;
   --color-cream: #FAF9F6;
   --color-cream-dark: #F3EFE0;
   --color-charcoal: #111111;
@@ -49,10 +49,10 @@ body {
   background: #FAF9F6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #BE5B3B;
+  background: #c7984f;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #983F25;
+  background: #9b7436;
 }
 
 /* Custom elements */
@@ -62,7 +62,7 @@ body {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: #BE5B3B;
+  background-color: #c7984f;
   color: #FFFFFF;
   font-weight: 500;
   text-transform: uppercase;
@@ -74,9 +74,9 @@ body {
 }
 
 .btn-gold:hover {
-  background-color: #983F25;
+  background-color: #9b7436;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(190, 91, 59, 0.25);
+  box-shadow: 0 4px 12px rgba(199, 152, 79, 0.25);
 }
 
 .btn-outline {
@@ -98,13 +98,13 @@ body {
 }
 
 .btn-outline:hover {
-  border-color: #BE5B3B;
-  color: #BE5B3B;
+  border-color: #c7984f;
+  color: #c7984f;
   transform: translateY(-1px);
 }
 
 .text-stroke-gold {
-  -webkit-text-stroke: 1px #BE5B3B;
+  -webkit-text-stroke: 1px #c7984f;
   color: transparent;
 }
 
@@ -120,11 +120,11 @@ body {
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    #BE5B3B 0%,
-    #D9886C 25%,
-    #BE5B3B 50%,
-    #D9886C 75%,
-    #BE5B3B 100%
+    #c7984f 0%,
+    #e2caa4 25%,
+    #c7984f 50%,
+    #e2caa4 75%,
+    #c7984f 100%
   );
   background-size: 200% auto;
   background-clip: text;
@@ -175,7 +175,7 @@ body {
   inset: 0;
   background: radial-gradient(
     400px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(190, 91, 59, 0.09),
+    rgba(199, 152, 79, 0.09),
     transparent 80%
   );
   opacity: 0;
@@ -190,11 +190,11 @@ body {
 
 /* Elegant custom scrollbar track overlay details */
 .custom-glow-overlay {
-  box-shadow: 0 0 50px -12px rgba(190, 91, 59, 0.25);
+  box-shadow: 0 0 50px -12px rgba(199, 152, 79, 0.25);
 }
 
 .text-glow-gold {
-  text-shadow: 0 0 12px rgba(190, 91, 59, 0.4), 0 0 25px rgba(190, 91, 59, 0.15);
+  text-shadow: 0 0 12px rgba(199, 152, 79, 0.4), 0 0 25px rgba(199, 152, 79, 0.15);
 }
 
 /* Film Grain Overlay effect */
@@ -227,9 +227,9 @@ body {
 /* n8n Chat Widget Custom Cinema Overrides */
 :root {
   /* Theme Colors - Premium Light Mode */
-  --chat--color--primary: #BE5B3B !important; /* AARA Gold/Rust */
-  --chat--color--primary-shade-50: #D9886C !important;
-  --chat--color--primary--shade-100: #983F25 !important;
+  --chat--color--primary: #c7984f !important; /* AARA Gold */
+  --chat--color--primary-shade-50: #e2caa4 !important;
+  --chat--color--primary--shade-100: #9b7436 !important;
   --chat--color--secondary: #FAF9F6 !important; /* Warm Cream */
   --chat--color-secondary-shade-50: #f0eee8 !important;
   
@@ -263,7 +263,7 @@ body {
   --chat--message--bot--border: 1px solid rgba(17, 17, 17, 0.06) !important;
 
   /* User Message */
-  --chat--message--user--background: #BE5B3B !important;
+  --chat--message--user--background: #c7984f !important;
   --chat--message--user--color: #ffffff !important;
 
   /* Input Box & Send button */
@@ -271,13 +271,13 @@ body {
   --chat--input--text-color: #111111 !important;
   --chat--input--container--background: #ffffff !important;
   --chat--input--container--border: 1px solid rgba(17, 17, 17, 0.08) !important;
-  --chat--input--send--button--color: #BE5B3B !important;
+  --chat--input--send--button--color: #c7984f !important;
   --chat--input--send--button--background: #ffffff !important;
 
   /* Floating Bubble Toggle */
-  --chat--toggle--background: #BE5B3B !important;
-  --chat--toggle--hover--background: #D9886C !important;
-  --chat--toggle--active--background: #983F25 !important;
+  --chat--toggle--background: #c7984f !important;
+  --chat--toggle--hover--background: #e2caa4 !important;
+  --chat--toggle--active--background: #9b7436 !important;
   --chat--toggle--color: #ffffff !important;
 }
 
@@ -303,10 +303,10 @@ body {
 .n8n-chat button,
 .n8n-chat [class*="toggle"],
 .n8n-chat [class*="trigger"] {
-  background-color: #BE5B3B !important;
+  background-color: #c7984f !important;
   color: #ffffff !important;
   fill: #ffffff !important;
-  box-shadow: 0 4px 15px rgba(190, 91, 59, 0.35) !important;
+  box-shadow: 0 4px 15px rgba(199, 152, 79, 0.35) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s, box-shadow 0.25s !important;
   will-change: transform; /* Force hardware acceleration / compositing layer */
