@@ -10,6 +10,9 @@ import Footer from './components/Footer';
 import ServiceDetailsModal from './components/ServiceDetailsModal';
 import PolicyPage from './components/PolicyPage';
 import CinemaIntroPlayer from './components/CinemaIntroPlayer';
+import Gallery from './components/Gallery';
+import Register from './components/Register';
+import Admin from './components/Admin';
 
 function App() {
   const [selectedService, setSelectedService] = useState(null);
@@ -37,6 +40,12 @@ function App() {
         setCurrentPage('terms');
       } else if (hash === '#/cookie-policy') {
         setCurrentPage('cookies');
+      } else if (hash === '#/gallery') {
+        setCurrentPage('gallery');
+      } else if (hash === '#/register') {
+        setCurrentPage('register');
+      } else if (hash === '#/admin') {
+        setCurrentPage('admin');
       } else {
         setCurrentPage('main');
       }
@@ -65,6 +74,30 @@ function App() {
             <Services onServiceSelect={setSelectedService} />
             <Process />
             <Contact />
+          </main>
+          <Footer />
+        </>
+      ) : currentPage === 'gallery' ? (
+        <>
+          <Navbar onServiceSelect={setSelectedService} />
+          <main className="flex-grow w-full relative z-10 pt-20">
+            <Gallery />
+          </main>
+          <Footer />
+        </>
+      ) : currentPage === 'register' ? (
+        <>
+          <Navbar onServiceSelect={setSelectedService} />
+          <main className="flex-grow w-full relative z-10 pt-20">
+            <Register />
+          </main>
+          <Footer />
+        </>
+      ) : currentPage === 'admin' ? (
+        <>
+          <Navbar onServiceSelect={setSelectedService} />
+          <main className="flex-grow w-full relative z-10 pt-20">
+            <Admin />
           </main>
           <Footer />
         </>

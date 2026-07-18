@@ -8,6 +8,8 @@ const navLinks = [
   { name: 'About', href: '#about', id: 'about' },
   { name: 'Services', href: '#services', id: 'services' },
   { name: 'Process', href: '#process', id: 'process' },
+  { name: 'Gallery', href: '#/gallery', id: 'gallery' },
+  { name: 'Register', href: '#/register', id: 'register' },
   { name: 'Contact', href: '#contact', id: 'contact' },
 ];
 
@@ -93,6 +95,28 @@ export default function Navbar({ onServiceSelect }) {
         if (el) observer.unobserve(el);
       });
     };
+  }, []);
+
+  // Sync hash state with active nav item
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash === '#/gallery') {
+        setActiveSection('gallery');
+      } else if (hash === '#/register') {
+        setActiveSection('register');
+      } else if (hash === '#/admin') {
+        setActiveSection('admin');
+      } else {
+        const cleanHash = hash.replace('#', '').replace('/', '');
+        if (['home', 'about', 'services', 'process', 'contact'].includes(cleanHash)) {
+          setActiveSection(cleanHash);
+        }
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+    return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
   return (
