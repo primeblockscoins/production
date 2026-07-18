@@ -56,6 +56,7 @@ export default function Admin() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [registrations, setRegistrations] = useState([]);
+  const [profileToDelete, setProfileToDelete] = useState(null);
   
   // Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
@@ -171,31 +172,38 @@ export default function Admin() {
     }
   };
 
-  const handleDelete = async (id, e) => {
-    e.stopPropagation();
-    if (window.confirm(`Are you sure you want to delete profile ${id}?`)) {
-      // Delete from Supabase cloud
-      try {
-        const { error } = await supabase
-          .from('registrations')
-          .delete()
-          .eq('id', id);
-        if (error) {
-          console.error("Failed to delete from Supabase:", error);
-        }
-      } catch (err) {
-        console.error("Error connecting to Supabase delete API:", err);
-      }
+  const handleDelete = (reg, e) => {
+    if (e) e.stopPropagation();
+    setProfileToDelete(reg);
+  };
 
-      // Delete from LocalStorage fallback
-      const updated = registrations.filter(reg => reg.id !== id);
-      localStorage.setItem('aara_registrations', JSON.stringify(updated));
-      setRegistrations(updated);
-      
-      if (selectedProfile && selectedProfile.id === id) {
-        setSelectedProfile(null);
+  const confirmDelete = async () => {
+    if (!profileToDelete) return;
+    const { id } = profileToDelete;
+
+    // Delete from Supabase cloud
+    try {
+      const { error } = await supabase
+        .from('registrations')
+        .delete()
+        .eq('id', id);
+      if (error) {
+        console.error("Failed to delete from Supabase:", error);
       }
+    } catch (err) {
+      console.error("Error connecting to Supabase delete API:", err);
     }
+
+    // Delete from LocalStorage fallback
+    const updated = registrations.filter(reg => reg.id !== id);
+    localStorage.setItem('aara_registrations', JSON.stringify(updated));
+    setRegistrations(updated);
+    
+    if (selectedProfile && selectedProfile.id === id) {
+      setSelectedProfile(null);
+    }
+
+    setProfileToDelete(null);
   };
 
   const handleSearchReset = () => {
@@ -417,7 +425,7 @@ export default function Admin() {
                                     <HiEye size={16} />
                                   </button>
                                   <button
-                                    onClick={(e) => handleDelete(reg.id, e)}
+                                    onClick={(e) => handleDelete(reg, e)}
                                     className="p-1.5 rounded hover:bg-red-50 text-charcoal-light hover:text-red-500 transition-colors cursor-pointer"
                                     title="Delete File"
                                   >
@@ -579,6 +587,56 @@ export default function Admin() {
               </div>
 
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Custom Delete Confirmation Modal */}
+      <AnimatePresence>
+        {profileToDelete && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setProfileToDelete(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/40 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm bg-white border border-charcoal/10 rounded-xl shadow-2xl p-6 relative overflow-hidden text-center select-none"
+            >
+              {/* Corner Decorative Red Markers */}
+              <span className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-red-500/25 pointer-events-none" />
+              <span className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-red-500/25 pointer-events-none" />
+
+              <div className="p-3 bg-red-50 text-red-500 rounded-full w-fit mx-auto mb-4 border border-red-100">
+                <HiTrash size={28} />
+              </div>
+
+              <h3 className="font-serif text-lg font-bold text-charcoal">Delete Talent Profile?</h3>
+              <p className="text-xs text-charcoal-light/75 mt-2 leading-relaxed">
+                Are you sure you want to delete the casting file for <strong className="text-charcoal">{profileToDelete.name}</strong> ({profileToDelete.id})? This will permanently erase the profile from Supabase and the local cache.
+              </p>
+
+              <div className="grid grid-cols-2 gap-3 mt-6">
+                <button
+                  onClick={() => setProfileToDelete(null)}
+                  className="px-4 py-2 border border-charcoal/15 hover:bg-cream-dark/10 text-[10px] font-mono uppercase tracking-wider rounded cursor-pointer transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-[10px] font-mono uppercase tracking-wider rounded cursor-pointer shadow-md transition-colors"
+                >
+                  Delete File
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
