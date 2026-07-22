@@ -317,7 +317,7 @@ export default function Admin() {
               </div>
               <h2 className="font-serif text-2xl font-bold text-charcoal">Admin Portal</h2>
               <p className="text-[10px] text-charcoal-light/60 mt-1 uppercase tracking-widest font-mono">
-                AARA Media Vault Screening
+                ARAA Media Vault Screening
               </p>
             </div>
 
@@ -369,7 +369,7 @@ export default function Admin() {
                     {registrations.length} Profiles Registered
                   </span>
                 </div>
-                <h1 className="font-serif text-2xl md:text-3xl font-bold mt-1">AARA Production Registry</h1>
+                <h1 className="font-serif text-2xl md:text-3xl font-bold mt-1">ARAA Production Registry</h1>
                 <p className="text-xs text-white/50 font-sans mt-2">
                   Review casting files, portfolio links, experience logs, and dynamic contact sheets.
                 </p>
