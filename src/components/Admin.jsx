@@ -62,20 +62,19 @@ export default function Admin() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('All');
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [statusModal, setStatusModal] = useState(null);
 
-  // Load and seed database from Supabase (with localStorage fallback)
+  // Load and seed database from Supabase (with localStorage fallback & merge)
   const fetchProfiles = async () => {
+    let supabaseProfiles = [];
     try {
       const { data, error } = await supabase
         .from('registrations')
         .select('*')
         .order('timestamp', { ascending: false });
 
-      if (error) {
-        console.error("Failed to load profiles from Supabase, loading LocalStorage:", error);
-        loadLocalStorageProfiles();
-      } else if (data && data.length > 0) {
-        const mappedData = data.map(item => ({
+      if (!error && data && data.length > 0) {
+        supabaseProfiles = data.map(item => ({
           id: item.id,
           name: item.name,
           category: item.category,
@@ -90,14 +89,30 @@ export default function Admin() {
           photo: item.photo,
           timestamp: item.timestamp
         }));
-        setRegistrations(mappedData);
-      } else {
-        loadLocalStorageProfiles();
       }
     } catch (err) {
       console.error("Failed to fetch from Supabase:", err);
-      loadLocalStorageProfiles();
     }
+
+    // Merge Supabase profiles with LocalStorage profiles so local registrations are preserved
+    const localDataStr = localStorage.getItem('aara_registrations');
+    let localProfiles = [];
+    if (localDataStr) {
+      try {
+        localProfiles = JSON.parse(localDataStr);
+      } catch (e) {
+        console.error("Failed to parse local storage profiles:", e);
+      }
+    } else {
+      localStorage.setItem('aara_registrations', JSON.stringify(SEED_DATA));
+      localProfiles = SEED_DATA;
+    }
+
+    const supabaseIds = new Set(supabaseProfiles.map(p => p.id));
+    const uniqueLocal = localProfiles.filter(p => !supabaseIds.has(p.id));
+    const combined = [...uniqueLocal, ...supabaseProfiles];
+
+    setRegistrations(combined.length > 0 ? combined : SEED_DATA);
   };
 
   const loadLocalStorageProfiles = () => {
@@ -114,11 +129,40 @@ export default function Admin() {
     fetchProfiles();
   }, []);
 
-  // Fetch specific profile by ID from Supabase
+  // Fetch specific profile by ID (checks local state & localStorage first, then Supabase)
   const handleQueryById = async (idToQuery) => {
     const cleanId = idToQuery.trim();
     if (!cleanId) return;
 
+    // 1. Check loaded registrations in current state
+    const localMatch = registrations.find(r => r.id.toLowerCase() === cleanId.toLowerCase());
+    if (localMatch) {
+      setSelectedProfile(localMatch);
+      return;
+    }
+
+    // 2. Check LocalStorage
+    const localDataStr = localStorage.getItem('aara_registrations');
+    if (localDataStr) {
+      try {
+        const localList = JSON.parse(localDataStr);
+        const lsMatch = localList.find(r => r.id.toLowerCase() === cleanId.toLowerCase());
+        if (lsMatch) {
+          setRegistrations(prev => {
+            if (!prev.some(r => r.id === lsMatch.id)) {
+              return [lsMatch, ...prev];
+            }
+            return prev;
+          });
+          setSelectedProfile(lsMatch);
+          return;
+        }
+      } catch (e) {
+        console.error("Error checking LocalStorage:", e);
+      }
+    }
+
+    // 3. Query database
     try {
       const { data, error } = await supabase
         .from('registrations')
@@ -126,10 +170,13 @@ export default function Admin() {
         .eq('id', cleanId)
         .single();
 
-      if (error) {
-        console.error("Supabase ID query error:", error);
-        alert(`No profile found in Supabase for ID: ${cleanId}`);
-      } else if (data) {
+      if (error || !data) {
+        console.error("ID query error:", error);
+        setStatusModal({
+          title: "Profile Not Found",
+          message: `No talent dossier found matching ID "${cleanId}". Please check the registration number and try again.`
+        });
+      } else {
         const mapped = {
           id: data.id,
           name: data.name,
@@ -159,6 +206,10 @@ export default function Admin() {
       }
     } catch (err) {
       console.error("Failed to query profile by ID:", err);
+      setStatusModal({
+        title: "Profile Not Found",
+        message: `No talent dossier found matching ID "${cleanId}". Please check the registration number and try again.`
+      });
     }
   };
 
@@ -292,9 +343,14 @@ export default function Admin() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-charcoal border border-white/10 rounded-xl p-6 md:p-8 text-white relative overflow-hidden shadow-lg">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-2xl pointer-events-none" />
               <div>
-                <span className="text-[10px] font-mono tracking-widest text-gold uppercase font-bold flex items-center gap-1.5">
-                  <HiSparkles /> Internal Talent Directory
-                </span>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="text-[10px] font-mono tracking-widest text-gold uppercase font-bold flex items-center gap-1.5">
+                    <HiSparkles /> Internal Talent Directory
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-[10px] font-mono font-bold">
+                    {registrations.length} Profiles Registered
+                  </span>
+                </div>
                 <h1 className="font-serif text-2xl md:text-3xl font-bold mt-1">AARA Production Registry</h1>
                 <p className="text-xs text-white/50 font-sans mt-2">
                   Review casting files, portfolio links, experience logs, and dynamic contact sheets.
@@ -325,6 +381,11 @@ export default function Admin() {
                       placeholder="Search ID, name, email or number..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && searchQuery.trim()) {
+                          handleQueryById(searchQuery);
+                        }
+                      }}
                       className="w-full pl-9 pr-4 py-2 border border-charcoal/15 rounded-lg text-xs font-sans outline-none focus:border-gold/80"
                     />
                   </div>
@@ -619,7 +680,7 @@ export default function Admin() {
 
               <h3 className="font-serif text-lg font-bold text-charcoal">Delete Talent Profile?</h3>
               <p className="text-xs text-charcoal-light/75 mt-2 leading-relaxed">
-                Are you sure you want to delete the casting file for <strong className="text-charcoal">{profileToDelete.name}</strong> ({profileToDelete.id})? This will permanently erase the profile from Supabase and the local cache.
+                Are you sure you want to delete the casting file for <strong className="text-charcoal">{profileToDelete.name}</strong> ({profileToDelete.id})? This will permanently erase the profile from the database and local cache.
               </p>
 
               <div className="grid grid-cols-2 gap-3 mt-6">
@@ -636,6 +697,48 @@ export default function Admin() {
                   Delete File
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Custom Neat Status / Notification Modal */}
+      <AnimatePresence>
+        {statusModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setStatusModal(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/50 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm bg-white border border-charcoal/10 rounded-2xl shadow-2xl p-6 relative overflow-hidden text-center select-none"
+            >
+              {/* Corner Decorative Gold Markers */}
+              <span className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-gold/50 pointer-events-none" />
+              <span className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-gold/50 pointer-events-none" />
+
+              <div className="p-3 bg-gold/10 text-gold rounded-full w-fit mx-auto mb-4 border border-gold/20">
+                <HiIdentification size={28} />
+              </div>
+
+              <h3 className="font-serif text-lg font-bold text-charcoal">{statusModal.title}</h3>
+              <p className="text-xs text-charcoal-light/75 mt-2 leading-relaxed font-sans">
+                {statusModal.message}
+              </p>
+
+              <button
+                onClick={() => setStatusModal(null)}
+                className="mt-6 w-full py-2.5 bg-gold hover:bg-gold-light text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all uppercase font-mono tracking-wider cursor-pointer"
+              >
+                Dismiss
+              </button>
             </motion.div>
           </motion.div>
         )}
