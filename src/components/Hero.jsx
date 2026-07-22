@@ -215,7 +215,7 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
             <motion.h2
               className="font-serif text-5xl md:text-7xl text-charcoal font-bold tracking-tight leading-none flex gap-2.5 justify-center"
             >
-              {["A", "A", "R", "A"].map((char, index) => (
+              {["A", "R", "A", "A"].map((char, index) => (
                 <motion.span
                   key={index}
                   variants={letterVariants}

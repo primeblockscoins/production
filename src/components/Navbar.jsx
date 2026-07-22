@@ -146,7 +146,7 @@ export default function Navbar({ onServiceSelect }) {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col overflow-hidden whitespace-nowrap"
           >
-            <span className="font-serif text-xl font-bold tracking-widest text-charcoal">AARA</span>
+            <span className="font-serif text-xl font-bold tracking-widest text-charcoal">ARAA</span>
             <span className="text-[8px] tracking-[0.3em] text-gold uppercase font-medium">MEDIA MISSION</span>
           </motion.div>
         </a>
@@ -239,7 +239,7 @@ export default function Navbar({ onServiceSelect }) {
               {/* Left Column: Intro */}
               <div className="col-span-4 border-r border-charcoal/5 pr-6 flex flex-col justify-between">
                 <div>
-                  <span className="text-[8px] font-mono tracking-widest text-gold font-bold uppercase">AARA Cinema Pipeline</span>
+                  <span className="text-[8px] font-mono tracking-widest text-gold font-bold uppercase">ARAA Cinema Pipeline</span>
                   <h4 className="font-serif text-base font-bold text-charcoal mt-1.5 leading-snug">Production Drafts & Pre-Production Workspaces</h4>
                   <p className="text-[11px] text-charcoal-light/70 font-sans leading-relaxed mt-2">
                     Deep dive into screenplay formatting, interactive lighting grids, blocking node tracks, multi-track editors, color scopes, and mixing consoles.
