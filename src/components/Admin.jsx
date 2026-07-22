@@ -3,53 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HiLockClosed, HiSearch, HiIdentification, HiEye, HiTrash, HiExternalLink, HiMail, HiPhone, HiCalendar, HiUser, HiSparkles } from 'react-icons/hi';
 import { supabase } from '../supabaseClient';
 
-const SEED_DATA = [
-  {
-    id: 'AARA-REG-948123',
-    name: 'Vikram Sethupathi',
-    category: 'Director',
-    dob: '1992-05-14',
-    age: 34,
-    number: '+91 94452 38102',
-    email: 'vikram.sethu@cinema.com',
-    fbId: 'facebook.com/vikramsethudir',
-    instaId: '@vikram_sethu_dir',
-    experience: '8',
-    previousProject: 'Directed two award-winning Tamil short films: "Kanal" and "Nizhal". Assisted prominent directors in three major production drafts. Specialized in high-concept thriller screenplays and visual blocking layouts.',
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-    timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
-  },
-  {
-    id: 'AARA-REG-372910',
-    name: 'Priya Ramachandran',
-    category: 'Cinematographer',
-    dob: '1995-11-23',
-    age: 30,
-    number: '+91 98840 92341',
-    email: 'priya.cam@production.in',
-    fbId: '',
-    instaId: '@priya_frames',
-    experience: '5',
-    previousProject: 'Cinematographer for independent feature film "Sandhiya". Worked as 2nd unit camera assistant for ARRI Alexa mini LF setups. Fluent in lighting styles, moody visual schemes, and steady-cam operations.',
-    photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80',
-    timestamp: new Date(Date.now() - 3600000 * 5).toISOString()
-  },
-  {
-    id: 'AARA-REG-483019',
-    name: 'Karthik Raja',
-    category: 'Editor',
-    dob: '1997-03-08',
-    age: 29,
-    number: '+91 73581 04293',
-    email: 'karthik.edit@cutstudio.net',
-    fbId: 'facebook.com/karthikedits',
-    instaId: '@karthik_raja_editor',
-    experience: '6',
-    previousProject: 'Chief editor for numerous corporate commercials and web-series tracks. Expertise in Davinci Resolve, Adobe Premiere Pro, and complex multi-track workflow pacing.',
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
-    timestamp: new Date(Date.now() - 3600000 * 12).toISOString()
-  }
-];
+const DEFAULT_CATEGORIES = ['Actor / Actress', 'Director', 'Cinematographer', 'Editor', 'Writer', 'Music Director', 'Art Director', 'Stunt Director', 'Production Assistant'];
 
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -146,16 +100,13 @@ export default function Admin() {
       } catch (e) {
         console.error("Failed to parse local storage profiles:", e);
       }
-    } else {
-      localStorage.setItem('aara_registrations', JSON.stringify(SEED_DATA));
-      localProfiles = SEED_DATA;
     }
 
     const supabaseIds = new Set(supabaseProfiles.map(p => p.id));
     const uniqueLocal = localProfiles.filter(p => !supabaseIds.has(p.id));
     const combined = [...uniqueLocal, ...supabaseProfiles];
 
-    // Automatically sync any local/demo profiles to Supabase table if missing online
+    // Automatically sync any local profiles to Supabase table if missing online
     if (uniqueLocal.length > 0) {
       const recordsToInsert = uniqueLocal.map(p => ({
         id: p.id,
@@ -180,7 +131,7 @@ export default function Admin() {
       }
     }
 
-    setRegistrations(combined.length > 0 ? combined : SEED_DATA);
+    setRegistrations(combined);
   };
 
   const loadLocalStorageProfiles = () => {
@@ -188,8 +139,7 @@ export default function Admin() {
     if (dataStr) {
       setRegistrations(JSON.parse(dataStr));
     } else {
-      localStorage.setItem('aara_registrations', JSON.stringify(SEED_DATA));
-      setRegistrations(SEED_DATA);
+      setRegistrations([]);
     }
   };
 
@@ -342,7 +292,7 @@ export default function Admin() {
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ['All', ...new Set(SEED_DATA.map(r => r.category)), ...new Set(registrations.map(r => r.category))];
+  const categories = ['All', ...new Set([...DEFAULT_CATEGORIES, ...registrations.map(r => r.category)])];
 
   return (
     <div className="min-h-screen bg-cream py-12 px-6 md:px-12 relative z-10">
