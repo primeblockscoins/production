@@ -7,7 +7,7 @@ const categories = ['All', 'Production Stills', 'Behind the Scenes', 'Cinematogr
 const galleryItems = [
   {
     id: 1,
-    title: 'AARA Cinematic Key Frame',
+    title: 'ARAA Cinematic Key Frame',
     category: 'Production Stills',
     image: '/gallery1.png',
     description: 'A dramatic key frame captured during principal photography. Focuses on cinematic depth, dynamic range, and rich color science.',
@@ -91,7 +91,7 @@ export default function Gallery() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-charcoal-light/75 text-sm md:text-base max-w-2xl mx-auto font-sans leading-relaxed"
         >
-          Explore a selection of high-fidelity film stills, concept art, and behind-the-scenes glimpses from AARA's recent cinematic productions.
+          Explore a selection of high-fidelity film stills, concept art, and behind-the-scenes glimpses from ARAA's recent cinematic productions.
         </motion.p>
       </div>
 
