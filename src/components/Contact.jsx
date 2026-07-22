@@ -65,20 +65,26 @@ export default function Contact() {
       console.error("Form submit error:", err);
     }
 
-    // Open user's email client pre-filled with the inquiry message
-    const targetEmail = "araamediamission@gmail.com";
-    const subject = encodeURIComponent(`New Production Inquiry: ${formData.projectType} - ${formData.name}`);
-    const body = encodeURIComponent(
-      `Hello ARAA Media Team,\n\n` +
-      `You have received a new project inquiry from your website:\n\n` +
-      `• Name: ${formData.name}\n` +
-      `• Email: ${formData.email}\n` +
-      `• Project Type: ${formData.projectType}\n\n` +
-      `Message:\n${formData.message}\n\n` +
-      `Sent via ARAA Media Website Contact Form`
-    );
-    const mailtoUrl = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
-    window.location.href = mailtoUrl;
+    // Send email automatically in background via FormSubmit API to araamediamission@gmail.com
+    try {
+      await fetch("https://formsubmit.co/ajax/araamediamission@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Production Inquiry: ${formData.projectType} - ${formData.name}`,
+          Name: formData.name,
+          Email: formData.email,
+          ProjectType: formData.projectType,
+          Message: formData.message,
+          _template: "table"
+        })
+      });
+    } catch (err) {
+      console.error("FormSubmit email dispatch error:", err);
+    }
 
     setSubmitted(true);
   };
