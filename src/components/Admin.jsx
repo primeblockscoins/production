@@ -112,6 +112,31 @@ export default function Admin() {
     const uniqueLocal = localProfiles.filter(p => !supabaseIds.has(p.id));
     const combined = [...uniqueLocal, ...supabaseProfiles];
 
+    // Automatically sync any local/demo profiles to Supabase table if missing online
+    if (uniqueLocal.length > 0) {
+      const recordsToInsert = uniqueLocal.map(p => ({
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        dob: p.dob,
+        age: p.age,
+        number: p.number,
+        email: p.email,
+        fb_id: p.fbId || null,
+        insta_id: p.instaId || null,
+        experience: p.experience,
+        previous_project: p.previousProject,
+        photo: p.photo,
+        timestamp: p.timestamp || new Date().toISOString()
+      }));
+
+      try {
+        await supabase.from('registrations').upsert(recordsToInsert);
+      } catch (syncErr) {
+        console.error("Auto-sync to Supabase failed:", syncErr);
+      }
+    }
+
     setRegistrations(combined.length > 0 ? combined : SEED_DATA);
   };
 
