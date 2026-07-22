@@ -37,7 +37,11 @@ export default function Admin() {
         .select('*')
         .order('timestamp', { ascending: false });
 
-      if (!error && data && data.length > 0) {
+      if (error) {
+        console.error("Supabase inquiries fetch error:", error);
+      }
+
+      if (!error && Array.isArray(data)) {
         const mappedSupabase = data.map(item => ({
           id: item.id,
           name: item.name,
@@ -46,8 +50,19 @@ export default function Admin() {
           message: item.message,
           timestamp: item.timestamp
         }));
+
         const existingIds = new Set(mappedSupabase.map(i => i.id));
         const uniqueLocal = localInquiries.filter(i => !existingIds.has(i.id));
+
+        // Auto-sync any local inquiries to Supabase database if missing
+        if (uniqueLocal.length > 0) {
+          try {
+            await supabase.from('inquiries').upsert(uniqueLocal);
+          } catch (syncErr) {
+            console.error("Auto-sync local inquiries to Supabase failed:", syncErr);
+          }
+        }
+
         setInquiries([...uniqueLocal, ...mappedSupabase]);
         return;
       }
