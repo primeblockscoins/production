@@ -23,7 +23,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 pb-16 border-b border-white/10">
           {/* Logo / Story Column - 5 cols */}
           <div className="md:col-span-5 flex flex-col gap-6">
-            <a href="#home" className="flex items-center w-fit" aria-label="AARA Media Mission home">
+            <a href="#home" className="flex items-center w-fit" aria-label="ARAA Media Mission home">
               <AaraLogo size="footer" className="ring-1 ring-white/10" />
             </a>
             <p className="text-xs text-white/60 max-w-sm leading-relaxed font-sans">
@@ -69,7 +69,7 @@ export default function Footer() {
 
             {subscribed && (
               <span className="text-[10px] text-gold font-sans font-semibold mt-1">
-                Subscribed successfully! Welcome to AARA Dispatch.
+                Subscribed successfully! Welcome to ARAA Dispatch.
               </span>
             )}
           </div>
@@ -77,7 +77,7 @@ export default function Footer() {
 
         {/* Bottom Credits */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-10 text-[10px] text-white/40 tracking-wider font-sans uppercase">
-          <p>© {new Date().getFullYear()} AARA Media Mission. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} ARAA Media Mission. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#/privacy" className="hover:text-gold transition-colors duration-300 font-sans">Privacy Policy</a>
             <a href="#/terms" className="hover:text-gold transition-colors duration-300 font-sans">Terms & Conditions</a>

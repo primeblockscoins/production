@@ -69,13 +69,13 @@ export default function Contact() {
     const targetEmail = "araamediamission@gmail.com";
     const subject = encodeURIComponent(`New Production Inquiry: ${formData.projectType} - ${formData.name}`);
     const body = encodeURIComponent(
-      `Hello AARA Media Team,\n\n` +
+      `Hello ARAA Media Team,\n\n` +
       `You have received a new project inquiry from your website:\n\n` +
       `• Name: ${formData.name}\n` +
       `• Email: ${formData.email}\n` +
       `• Project Type: ${formData.projectType}\n\n` +
       `Message:\n${formData.message}\n\n` +
-      `Sent via AARA Media Website Contact Form`
+      `Sent via ARAA Media Website Contact Form`
     );
     const mailtoUrl = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
     window.location.href = mailtoUrl;
@@ -173,7 +173,7 @@ export default function Contact() {
             {/* Map Frame */}
             <div className="w-full aspect-[16/9] bg-cream-dark/50 rounded overflow-hidden shadow-md relative border border-charcoal/5">
               <iframe
-                title="AARA Studio Map Location"
+                title="ARAA Studio Map Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15545.922119047248!2d80.2078652431698!3d13.068694084227092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526615e4ef84a7%3A0xe54fb712d7c0cd36!2sAnna%20Nagar%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 className="w-full h-full border-none grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
                 allowFullScreen=""
