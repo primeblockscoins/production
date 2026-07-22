@@ -63,8 +63,51 @@ export default function Admin() {
   const [filterCategory, setFilterCategory] = useState('All');
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [statusModal, setStatusModal] = useState(null);
+  const [inquiries, setInquiries] = useState([]);
+  const [activeTab, setActiveTab] = useState('registrations'); // 'registrations' | 'inquiries'
 
-  // Load and seed database from Supabase (with localStorage fallback & merge)
+  const fetchInquiries = async () => {
+    let localInquiries = [];
+    const localDataStr = localStorage.getItem('aara_inquiries');
+    if (localDataStr) {
+      try {
+        localInquiries = JSON.parse(localDataStr);
+      } catch (e) {
+        console.error("Error parsing local inquiries:", e);
+      }
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('inquiries')
+        .select('*')
+        .order('timestamp', { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        const mappedSupabase = data.map(item => ({
+          id: item.id,
+          name: item.name,
+          email: item.email,
+          project_type: item.project_type,
+          message: item.message,
+          timestamp: item.timestamp
+        }));
+        const existingIds = new Set(mappedSupabase.map(i => i.id));
+        const uniqueLocal = localInquiries.filter(i => !existingIds.has(i.id));
+        setInquiries([...uniqueLocal, ...mappedSupabase]);
+        return;
+      }
+    } catch (err) {
+      console.error("Supabase inquiries fetch error:", err);
+    }
+
+    setInquiries(localInquiries);
+  };
+
+  useEffect(() => {
+    fetchProfiles();
+    fetchInquiries();
+  }, []);
   const fetchProfiles = async () => {
     let supabaseProfiles = [];
     try {
@@ -389,7 +432,67 @@ export default function Admin() {
               </button>
             </div>
 
+            {/* Admin Section Tabs */}
+            <div className="flex items-center gap-3 border-b border-charcoal/10 pb-2">
+              <button
+                onClick={() => setActiveTab('registrations')}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold font-mono tracking-wider transition-all cursor-pointer ${
+                  activeTab === 'registrations'
+                    ? 'bg-gold text-white shadow-sm'
+                    : 'bg-white text-charcoal/60 hover:text-charcoal border border-charcoal/10'
+                }`}
+              >
+                Talent Registrations ({registrations.length})
+              </button>
+              <button
+                onClick={() => setActiveTab('inquiries')}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold font-mono tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${
+                  activeTab === 'inquiries'
+                    ? 'bg-gold text-white shadow-sm'
+                    : 'bg-white text-charcoal/60 hover:text-charcoal border border-charcoal/10'
+                }`}
+              >
+                <HiMail size={14} /> Contact Inquiries ({inquiries.length})
+              </button>
+            </div>
+
             {/* Main Content Workspace Grid */}
+            {activeTab === 'inquiries' ? (
+              <div className="bg-white border border-charcoal/5 rounded-xl shadow-sm p-6">
+                <h3 className="font-serif text-lg font-bold text-charcoal mb-4">
+                  Received Contact Form Inquiries ({inquiries.length})
+                </h3>
+                {inquiries.length === 0 ? (
+                  <p className="text-xs text-charcoal-light/60 py-8 text-center">
+                    No inquiries received yet. Contact form submissions will appear here.
+                  </p>
+                ) : (
+                  <div className="flex flex-col gap-4">
+                    {inquiries.map((inq) => (
+                      <div key={inq.id} className="p-4 border border-charcoal/10 rounded-lg bg-cream/20 flex flex-col gap-2">
+                        <div className="flex justify-between items-center flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-sm text-charcoal">{inq.name}</span>
+                            <span className="text-[10px] font-mono px-2 py-0.5 bg-gold/10 text-gold rounded font-semibold">
+                              {inq.project_type || 'General'}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-mono text-charcoal-light/50">
+                            {inq.timestamp ? new Date(inq.timestamp).toLocaleString() : ''}
+                          </span>
+                        </div>
+                        <a href={`mailto:${inq.email}`} className="text-xs font-sans text-gold hover:underline w-fit">
+                          {inq.email}
+                        </a>
+                        <p className="text-xs font-sans text-charcoal/80 bg-white p-3 rounded border border-charcoal/5 leading-relaxed mt-1">
+                          {inq.message}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Column: Search & List (7 cols) */}
@@ -671,8 +774,8 @@ export default function Admin() {
                   )}
                 </AnimatePresence>
               </div>
-
             </div>
+          )}
           </motion.div>
         )}
       </AnimatePresence>

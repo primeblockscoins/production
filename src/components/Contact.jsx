@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiInstagram, FiYoutube } from 'react-icons/fi';
 import { FaVimeoV } from 'react-icons/fa';
+import { supabase } from '../supabaseClient';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,14 +13,74 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock submit logic
+
+    const newInquiry = {
+      id: `INQ-${Math.floor(100000 + Math.random() * 900000)}`,
+      name: formData.name,
+      email: formData.email,
+      project_type: formData.projectType,
+      message: formData.message,
+      timestamp: new Date().toISOString()
+    };
+
+    // Save to LocalStorage so admin can view it inside Admin Portal
+    try {
+      const existingStr = localStorage.getItem('aara_inquiries');
+      const existing = existingStr ? JSON.parse(existingStr) : [];
+      existing.unshift(newInquiry);
+      localStorage.setItem('aara_inquiries', JSON.stringify(existing));
+    } catch (err) {
+      console.error("Failed to save inquiry to local storage:", err);
+    }
+
+    // Try saving to Supabase inquiries table
+    try {
+      await supabase.from('inquiries').insert([{
+        id: newInquiry.id,
+        name: newInquiry.name,
+        email: newInquiry.email,
+        project_type: newInquiry.project_type,
+        message: newInquiry.message,
+        timestamp: newInquiry.timestamp
+      }]);
+    } catch (err) {
+      console.error("Supabase inquiry save error:", err);
+    }
+
+    // Netlify Forms POST
+    try {
+      const encode = (data) => {
+        return Object.keys(data)
+          .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+          .join('&');
+      };
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': 'contact', ...formData })
+      }).catch(err => console.error("Netlify form submission error:", err));
+    } catch (err) {
+      console.error("Form submit error:", err);
+    }
+
+    // Open user's email client pre-filled with the inquiry message
+    const targetEmail = "araamediamission@gmail.com";
+    const subject = encodeURIComponent(`New Production Inquiry: ${formData.projectType} - ${formData.name}`);
+    const body = encodeURIComponent(
+      `Hello AARA Media Team,\n\n` +
+      `You have received a new project inquiry from your website:\n\n` +
+      `• Name: ${formData.name}\n` +
+      `• Email: ${formData.email}\n` +
+      `• Project Type: ${formData.projectType}\n\n` +
+      `Message:\n${formData.message}\n\n` +
+      `Sent via AARA Media Website Contact Form`
+    );
+    const mailtoUrl = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+    window.location.href = mailtoUrl;
+
     setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', projectType: 'Feature Film', message: '' });
-    }, 3000);
   };
 
   const handleChange = (e) => {
@@ -64,8 +125,8 @@ export default function Contact() {
                 <div className="text-gold p-1 mt-0.5"><FiMail size={18} /></div>
                 <div>
                   <h4 className="text-xs tracking-wider uppercase font-semibold text-charcoal">Inquiries</h4>
-                  <a href="mailto:info@aaramediamission.com" className="text-sm text-charcoal-light/80 hover:text-gold transition-colors font-sans mt-1 block">
-                    info@aaramediamission.com
+                  <a href="mailto:araamediamission@gmail.com" className="text-sm text-charcoal-light/80 hover:text-gold transition-colors font-sans mt-1 block">
+                    araamediamission@gmail.com
                   </a>
                 </div>
               </div>
@@ -137,7 +198,8 @@ export default function Contact() {
                     Project Consultation
                   </h3>
 
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                  <form name="contact" method="POST" data-netlify="true" onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <input type="hidden" name="form-name" value="contact" />
                     {/* Name */}
                     <div className="relative">
                       <input

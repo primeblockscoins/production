@@ -11,7 +11,7 @@ export default function PolicyPage({ type }) {
 
   const brandName = "AARA Media Mission";
   const domainName = "aaramediamission.com";
-  const contactEmail = "info@aaramediamission.com";
+  const contactEmail = "araamediamission@gmail.com";
 
   return (
     <motion.div
