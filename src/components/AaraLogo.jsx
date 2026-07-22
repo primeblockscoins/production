@@ -22,7 +22,7 @@ export default function AaraLogo({ size = 'nav', className = '', darkBackground 
     >
       <img
         src="/finallogo.png"
-        alt="AARA Media Mission"
+        alt="ARAA Media Mission"
         className={`${sizeClasses} w-auto object-contain transition-transform duration-300 group-hover:scale-102`}
       />
 

@@ -97,7 +97,7 @@ export default function About({ isTickerPaused }) {
               variants={itemVariants}
               className="text-sm md:text-base text-charcoal-light/80 leading-relaxed font-sans mt-2"
             >
-              Founded with the singular purpose of elevating storytelling, AARA Media Mission is a boutique cinema production company. We specialize in producing immersive experiences—from independent feature films to premium commercial spots and artistic music videos.
+              Founded with the singular purpose of elevating storytelling, ARAA Media Mission is a boutique cinema production company. We specialize in producing immersive experiences—from independent feature films to premium commercial spots and artistic music videos.
             </motion.p>
 
             <motion.p

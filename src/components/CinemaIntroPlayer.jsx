@@ -441,7 +441,7 @@ export default function CinemaIntroPlayer({ onClose }) {
               className="flex flex-col items-center"
             >
               <h2 className="font-serif text-3xl md:text-4xl text-white font-bold tracking-wide mb-3">
-                AARA Theater Screen
+                ARAA Theater Screen
               </h2>
               <p className="text-sm text-neutral-400 font-light leading-relaxed max-w-sm mb-8">
                 Welcome to the cinema projection room. Enter the theater to play the logo creation reveal sequence.

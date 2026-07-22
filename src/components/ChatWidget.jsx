@@ -23,12 +23,12 @@ export default function ChatWidget() {
       createChat({
         webhookUrl: 'https://nishan45.app.n8n.cloud/webhook/60fca804-1008-4ec3-ae5b-faed946030f4/chat',
         initialMessages: [
-          'Welcome to the AARA Media Mission Production Desk! 🎬',
+          'Welcome to the ARAA Media Mission Production Desk! 🎬',
           'I am your AI production assistant. How can I help you draft your next cinema project?'
         ],
         i18n: {
           en: {
-            title: 'AARA Studio Assistant',
+            title: 'ARAA Studio Assistant',
             subtitle: 'Active Production AI Desk',
             inputPlaceholder: 'Start scripting or ask a question...',
           }
