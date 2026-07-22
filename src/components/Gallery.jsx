@@ -7,67 +7,35 @@ const categories = ['All', 'Production Stills', 'Behind the Scenes', 'Cinematogr
 const galleryItems = [
   {
     id: 1,
-    title: 'The Silent Whispers - Act II',
+    title: 'AARA Cinematic Key Frame',
     category: 'Production Stills',
-    image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80',
-    description: 'A dramatic key frame captured during the climax sequence. Focuses on high-contrast low-key lighting to enhance emotional tension.',
+    image: '/gallery1.png',
+    description: 'A dramatic key frame captured during principal photography. Focuses on cinematic depth, dynamic range, and rich color science.',
     meta: { camera: 'ARRI Alexa Mini LF', lens: 'Signature Prime 45mm', aperture: 'T1.8', iso: '800' }
   },
   {
     id: 2,
-    title: 'Night Street Chase Setup',
-    category: 'Behind the Scenes',
-    image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80',
-    description: 'Setting up the heavy-duty camera crane and rain machines for the midnight car tracking sequence in downtown Chennai.',
+    title: 'High-Impact Action Sequence',
+    category: 'Cinematography',
+    image: '/gallery2.png',
+    description: 'Dynamic motion capture shot from our recent high-budget action feature production.',
     meta: { camera: 'RED V-Raptor 8K', lens: 'Cooke Anamorphic 35mm', aperture: 'T2.3', iso: '1280' }
   },
   {
     id: 3,
-    title: 'Anamorphic Light Flares',
-    category: 'Cinematography',
-    image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
-    description: 'A study of streak flares and horizontal light blooms using vintage anamorphic elements. Shot against neon backdrops.',
+    title: 'Behind the Scenes & On-Set Rigging',
+    category: 'Behind the Scenes',
+    image: '/gallery3.png',
+    description: 'Behind-the-scenes glance showing camera rigging, lighting setups, and real-time directorial blocking on set.',
     meta: { camera: 'Sony Venice 2', lens: 'Kowa Anamorphic 50mm', aperture: 'T2.0', iso: '1600' }
   },
   {
     id: 4,
-    title: 'Echoes of Pollachi - Scene 4',
-    category: 'Production Stills',
-    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80',
-    description: 'Golden hour silhouette framing on the foothills of Pollachi. Emphasizes natural ambient backlight and atmospheric mist.',
+    title: 'Visual Atmosphere & Mood Composition',
+    category: 'Concept Art',
+    image: '/gallery4.png',
+    description: 'Concept artwork and mood grading panel designed for pre-visualization and director reference.',
     meta: { camera: 'ARRI Alexa Mini LF', lens: 'Signature Prime 75mm', aperture: 'T2.8', iso: '400' }
-  },
-  {
-    id: 5,
-    title: 'Visual Scripting & Storyboards',
-    category: 'Concept Art',
-    image: 'https://images.unsplash.com/photo-1459706489587-414344445f10?auto=format&fit=crop&w=800&q=80',
-    description: 'Hand-drawn mood boards mapping key frame aspect ratios and color blocking for the pre-production pitch deck.',
-    meta: { medium: 'Digital Painting', aspect: '2.39:1 CinemaScope', artist: 'AARA Studio Art Department' }
-  },
-  {
-    id: 6,
-    title: 'Underwater Lighting Rig',
-    category: 'Behind the Scenes',
-    image: 'https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?auto=format&fit=crop&w=800&q=80',
-    description: 'Behind-the-scenes shot of our safety divers and custom water-encased LED panels preparing for the underwater dream sequence.',
-    meta: { camera: 'RED V-Raptor (Gimbal Rig)', lens: 'Laowa Zero-D 15mm', aperture: 'T4.0', iso: '800' }
-  },
-  {
-    id: 7,
-    title: 'Mood & Color Spectrum Plate',
-    category: 'Cinematography',
-    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80',
-    description: 'Color block test for matching warm orange tungsten light with cool steel blue ambient backgrounds to establish secondary color palettes.',
-    meta: { camera: 'Sony Venice 2', lens: 'Zeiss Supreme 100mm', aperture: 'T1.5', iso: '640' }
-  },
-  {
-    id: 8,
-    title: 'Ancient Temple Concept Art',
-    category: 'Concept Art',
-    image: 'https://images.unsplash.com/photo-1478720143033-6a972678aa30?auto=format&fit=crop&w=800&q=80',
-    description: 'Atmospheric environment concept art showing ancient architecture layout and fog density parameters for CGI integration team.',
-    meta: { medium: '3D Render + Matte Painting', aspect: '2.39:1 CinemaScope', software: 'Blender & Unreal Engine 5' }
   }
 ];
 

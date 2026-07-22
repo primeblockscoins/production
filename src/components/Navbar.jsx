@@ -8,7 +8,7 @@ const navLinks = [
   { name: 'About', href: '#about', id: 'about' },
   { name: 'Services', href: '#services', id: 'services' },
   { name: 'Process', href: '#process', id: 'process' },
-  { name: 'Gallery', href: '#/gallery', id: 'gallery' },
+  { name: 'Gallery', href: '#gallery', id: 'gallery' },
   { name: 'Register', href: '#/register', id: 'register' },
   { name: 'Contact', href: '#contact', id: 'contact' },
 ];
@@ -66,7 +66,7 @@ export default function Navbar({ onServiceSelect }) {
 
   // Section observer to detect which section is currently centered on screen
   useEffect(() => {
-    const sectionIds = ['home', 'about', 'services', 'process', 'contact'];
+    const sectionIds = ['home', 'about', 'services', 'process', 'gallery', 'contact'];
 
     const observerOptions = {
       root: null,
@@ -101,7 +101,7 @@ export default function Navbar({ onServiceSelect }) {
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash;
-      if (hash === '#/gallery') {
+      if (hash === '#/gallery' || hash === '#gallery') {
         setActiveSection('gallery');
       } else if (hash === '#/register') {
         setActiveSection('register');
@@ -109,7 +109,7 @@ export default function Navbar({ onServiceSelect }) {
         setActiveSection('admin');
       } else {
         const cleanHash = hash.replace('#', '').replace('/', '');
-        if (['home', 'about', 'services', 'process', 'contact'].includes(cleanHash)) {
+        if (['home', 'about', 'services', 'process', 'gallery', 'contact'].includes(cleanHash)) {
           setActiveSection(cleanHash);
         }
       }

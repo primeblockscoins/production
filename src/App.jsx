@@ -73,6 +73,9 @@ function App() {
             <About isTickerPaused={isTickerPaused} />
             <Services onServiceSelect={setSelectedService} />
             <Process />
+            <section id="gallery">
+              <Gallery />
+            </section>
             <Contact />
           </main>
           <Footer />
