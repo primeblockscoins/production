@@ -25,7 +25,7 @@ export default function Contact() {
       timestamp: new Date().toISOString()
     };
 
-    // Save to LocalStorage so admin can view it inside Admin Portal
+    // Save to LocalStorage so admin can view it inside Admin Portal immediately
     try {
       const existingStr = localStorage.getItem('aara_inquiries');
       const existing = existingStr ? JSON.parse(existingStr) : [];
@@ -35,9 +35,9 @@ export default function Contact() {
       console.error("Failed to save inquiry to local storage:", err);
     }
 
-    // Try saving to Supabase inquiries table
+    // Save to Supabase database (inquiries table)
     try {
-      await supabase.from('inquiries').insert([{
+      const { error } = await supabase.from('inquiries').insert([{
         id: newInquiry.id,
         name: newInquiry.name,
         email: newInquiry.email,
@@ -45,45 +45,14 @@ export default function Contact() {
         message: newInquiry.message,
         timestamp: newInquiry.timestamp
       }]);
-    } catch (err) {
-      console.error("Supabase inquiry save error:", err);
-    }
 
-    // Netlify Forms POST
-    try {
-      const encode = (data) => {
-        return Object.keys(data)
-          .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-          .join('&');
-      };
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...formData })
-      }).catch(err => console.error("Netlify form submission error:", err));
+      if (error) {
+        console.error("Supabase inquiry insert error:", error);
+      } else {
+        console.log("Inquiry stored in Supabase database successfully!");
+      }
     } catch (err) {
-      console.error("Form submit error:", err);
-    }
-
-    // Send email automatically in background via FormSubmit API to araamediamission@gmail.com
-    try {
-      await fetch("https://formsubmit.co/ajax/araamediamission@gmail.com", {
-        method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `New Production Inquiry: ${formData.projectType} - ${formData.name}`,
-          Name: formData.name,
-          Email: formData.email,
-          ProjectType: formData.projectType,
-          Message: formData.message,
-          _template: "table"
-        })
-      });
-    } catch (err) {
-      console.error("FormSubmit email dispatch error:", err);
+      console.error("Supabase connection error:", err);
     }
 
     setSubmitted(true);
@@ -204,8 +173,7 @@ export default function Contact() {
                     Project Consultation
                   </h3>
 
-                  <form name="contact" method="POST" data-netlify="true" onSubmit={handleSubmit} className="flex flex-col gap-6">
-                    <input type="hidden" name="form-name" value="contact" />
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                     {/* Name */}
                     <div className="relative">
                       <input
