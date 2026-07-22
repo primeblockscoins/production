@@ -210,7 +210,7 @@ export default function Hero({ onPlayIntro, isTickerPaused }) {
             A Cinematic Production Studio
           </motion.span>
 
-          {/* AARA staggered letter reveal with defocus blur */}
+          {/* ARAA staggered letter reveal with defocus blur */}
           <div className="overflow-hidden py-1">
             <motion.h2
               className="font-serif text-5xl md:text-7xl text-charcoal font-bold tracking-tight leading-none flex gap-2.5 justify-center"

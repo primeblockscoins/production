@@ -205,7 +205,7 @@ export default function InteractiveClapperboard({ isTickerPaused }) {
           <div className="flex justify-between items-center border-b border-neutral-800/80 pb-2">
             <div className="flex flex-col">
               <span className="text-[8px] tracking-[0.2em] uppercase text-neutral-500 font-bold">Production</span>
-              <span className="text-[11px] md:text-xs tracking-[0.25em] font-bold text-cream">AARA MEDIA MISSION</span>
+              <span className="text-[11px] md:text-xs tracking-[0.25em] font-bold text-cream">ARAA MEDIA MISSION</span>
             </div>
             {/* Glowing active REC indicator */}
             <div className="flex items-center gap-1.5 bg-black/40 px-2 py-0.5 rounded border border-neutral-800/50">

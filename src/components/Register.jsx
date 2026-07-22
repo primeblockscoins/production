@@ -162,7 +162,7 @@ export default function Register() {
     }
 
     // Generate unique ID
-    const uniqueId = `AARA-REG-${Math.floor(100000 + Math.random() * 900000)}`;
+    const uniqueId = `ARAA-REG-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const newTalent = {
       id: uniqueId,
@@ -292,7 +292,7 @@ export default function Register() {
               <span className="text-[10px] font-mono tracking-[0.25em] text-gold uppercase font-bold">Talent Acquisition</span>
               <h2 className="font-serif text-3xl font-bold text-charcoal mt-2">Crew Registry & Profile Form</h2>
               <p className="text-xs text-charcoal-light/75 mt-2 max-w-md mx-auto">
-                Submit your professional file to join the AARA production network. Registered portfolios are cataloged for upcoming projects.
+                Submit your professional file to join the ARAA production network. Registered portfolios are cataloged for upcoming projects.
               </p>
             </div>
 

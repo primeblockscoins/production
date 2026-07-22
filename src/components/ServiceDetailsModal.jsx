@@ -902,7 +902,7 @@ function SoundPanel() {
           <div className="bg-cream-dark/15 p-3.5 rounded border border-charcoal/5 flex flex-col gap-1 text-[11px]">
             <div className="flex justify-between">
               <span className="font-semibold text-charcoal">Main Track:</span>
-              <span className="font-mono text-gold font-bold">CELLO_ECHOES_AARA.wav</span>
+              <span className="font-mono text-gold font-bold">CELLO_ECHOES_ARAA.wav</span>
             </div>
             <div className="flex justify-between">
               <span className="text-neutral-400">Copyright status:</span>

@@ -9,7 +9,7 @@ export default function PolicyPage({ type }) {
     window.scrollTo(0, 0);
   }, [type]);
 
-  const brandName = "AARA Media Mission";
+  const brandName = "ARAA Media Mission";
   const domainName = "aaramediamission.com";
   const contactEmail = "araamediamission@gmail.com";
 
@@ -27,7 +27,7 @@ export default function PolicyPage({ type }) {
       {/* Header Bar */}
       <header className="border-b border-charcoal/5 bg-white/70 backdrop-blur-md sticky top-0 z-30 py-5 select-none">
         <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
-          <a href="#/" className="flex items-center" aria-label="AARA Media Mission home">
+          <a href="#/" className="flex items-center" aria-label="ARAA Media Mission home">
             <AaraLogo size="policy" />
           </a>
 
